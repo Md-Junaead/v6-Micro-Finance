@@ -1,0 +1,2 @@
+D:/Project/v6_micro_finance/android/app/.cxx/RelWithDebInfo/132y4055/armeabi-v7a/CMakeFiles/edit_cache.dir
+D:/Project/v6_micro_finance/android/app/.cxx/RelWithDebInfo/132y4055/armeabi-v7a/CMakeFiles/rebuild_cache.dir
