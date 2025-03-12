@@ -284,7 +284,7 @@ class _UserRegistrationScreenState extends State<UserRegistrationScreen> {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       userProvider
-                          .submitRegistration(); // Call submitRegistration without parameters
+                          .submitRegistration(); // Call submitRegistration without parameters, got it
                     }
                   },
                   style: ElevatedButton.styleFrom(
