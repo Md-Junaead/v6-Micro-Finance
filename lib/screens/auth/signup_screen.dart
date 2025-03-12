@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:country_picker/country_picker.dart';
+import 'package:v1_micro_finance/configs/routes/routes_name.dart';
 import 'package:v1_micro_finance/configs/viewmodels/reg_view_model.dart';
-import 'package:v1_micro_finance/screens/auth/login_screen.dart';
 
 class UserRegistrationScreen extends StatefulWidget {
   const UserRegistrationScreen({super.key});
@@ -12,22 +12,20 @@ class UserRegistrationScreen extends StatefulWidget {
 }
 
 class _UserRegistrationScreenState extends State<UserRegistrationScreen> {
-  // Controllers to hold the form input values
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   final _referralCodeController = TextEditingController();
 
-  // Form Key for validation
   final _formKey = GlobalKey<FormState>();
 
-  // To hold selected country
   Country? _selectedCountry;
+  bool _isPasswordVisible = false;
+  bool _isConfirmPasswordVisible = false;
 
   @override
   Widget build(BuildContext context) {
-    // Accessing UserProvider
     final userProvider = Provider.of<UserRegistrationViewModel>(context);
 
     return Scaffold(
@@ -38,7 +36,7 @@ class _UserRegistrationScreenState extends State<UserRegistrationScreen> {
         ),
         child: SingleChildScrollView(
           child: Form(
-            key: _formKey, // Attach the form key for validation
+            key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -49,13 +47,11 @@ class _UserRegistrationScreenState extends State<UserRegistrationScreen> {
                   onTap: () {
                     showCountryPicker(
                       context: context,
-                      showPhoneCode: true, // Optional: Show country code
+                      showPhoneCode: true,
                       onSelect: (Country country) {
                         setState(() {
-                          _selectedCountry = country; // Set selected country
-                          userProvider.setCountry(
-                            country.name,
-                          ); // Update country in ViewModel
+                          _selectedCountry = country;
+                          userProvider.setCountry(country.name);
                         });
                       },
                     );
@@ -69,8 +65,7 @@ class _UserRegistrationScreenState extends State<UserRegistrationScreen> {
                       border: Border.all(color: Colors.black, width: 1.0),
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    width: double
-                        .infinity, // Ensure the container takes full width
+                    width: double.infinity,
                     child: Text(
                       _selectedCountry == null
                           ? 'Select a country'
@@ -108,7 +103,7 @@ class _UserRegistrationScreenState extends State<UserRegistrationScreen> {
                       if (value == null || value.isEmpty) {
                         return 'Please enter your name';
                       }
-                      userProvider.setName(value); // Update name in ViewModel
+                      userProvider.setName(value);
                       return null;
                     },
                   ),
@@ -147,14 +142,14 @@ class _UserRegistrationScreenState extends State<UserRegistrationScreen> {
                       ).hasMatch(value)) {
                         return 'Please enter a valid email';
                       }
-                      userProvider.setEmail(value); // Update email in ViewModel
+                      userProvider.setEmail(value);
                       return null;
                     },
                   ),
                 ),
                 const SizedBox(height: 16),
 
-                // Password Input with visibility toggle (same style as Name & Email)
+                // Password Input with visibility toggle
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: TextFormField(
@@ -177,29 +172,29 @@ class _UserRegistrationScreenState extends State<UserRegistrationScreen> {
                       ),
                       floatingLabelBehavior: FloatingLabelBehavior.auto,
                       suffixIcon: IconButton(
-                        icon: Icon(Icons.visibility),
+                        icon: Icon(_isPasswordVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off),
                         onPressed: () {
                           setState(() {
-                            // Add your visibility toggle logic here if needed
+                            _isPasswordVisible = !_isPasswordVisible;
                           });
                         },
                       ),
                     ),
-                    obscureText: true,
+                    obscureText: !_isPasswordVisible,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter your password';
                       }
-                      userProvider.setPassword(
-                        value,
-                      ); // Update password in ViewModel
+                      userProvider.setPassword(value);
                       return null;
                     },
                   ),
                 ),
                 const SizedBox(height: 16),
 
-                // Confirm Password Input with visibility toggle (same style as Name & Email)
+                // Confirm Password Input with visibility toggle
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: TextFormField(
@@ -222,15 +217,18 @@ class _UserRegistrationScreenState extends State<UserRegistrationScreen> {
                       ),
                       floatingLabelBehavior: FloatingLabelBehavior.auto,
                       suffixIcon: IconButton(
-                        icon: Icon(Icons.visibility),
+                        icon: Icon(_isConfirmPasswordVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off),
                         onPressed: () {
                           setState(() {
-                            // Add your visibility toggle logic here if needed
+                            _isConfirmPasswordVisible =
+                                !_isConfirmPasswordVisible;
                           });
                         },
                       ),
                     ),
-                    obscureText: true,
+                    obscureText: !_isConfirmPasswordVisible,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please confirm your password';
@@ -238,9 +236,7 @@ class _UserRegistrationScreenState extends State<UserRegistrationScreen> {
                       if (value != _passwordController.text) {
                         return 'Passwords do not match';
                       }
-                      userProvider.setConfirmPassword(
-                        value,
-                      ); // Update confirm password in ViewModel
+                      userProvider.setConfirmPassword(value);
                       return null;
                     },
                   ),
@@ -271,9 +267,7 @@ class _UserRegistrationScreenState extends State<UserRegistrationScreen> {
                       floatingLabelBehavior: FloatingLabelBehavior.auto,
                     ),
                     onChanged: (value) {
-                      userProvider.setReferralCode(
-                        value,
-                      ); // Update referral code in ViewModel
+                      userProvider.setReferralCode(value);
                     },
                   ),
                 ),
@@ -283,8 +277,28 @@ class _UserRegistrationScreenState extends State<UserRegistrationScreen> {
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      userProvider
-                          .submitRegistration(); // Call submitRegistration without parameters, got it
+                      userProvider.submitRegistration();
+
+                      // Show Popup Message after successful registration Hurry
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Registration Complete'),
+                            content: Text(
+                                'Please Check your Email to Verify'), // Popup message
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pushNamed(
+                                      context, RoutesName.loginScreen);
+                                },
+                                child: Text('OK'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
                     }
                   },
                   style: ElevatedButton.styleFrom(
@@ -297,27 +311,6 @@ class _UserRegistrationScreenState extends State<UserRegistrationScreen> {
                   child: const Text(
                     'Sign Up',
                     style: TextStyle(fontSize: 17, color: Colors.white),
-                  ),
-                ),
-                const SizedBox(height: 10),
-
-                // Sign In link
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginScreen()),
-                    );
-                  },
-                  child: const Center(
-                    child: Text(
-                      'Already has an account? Sign In',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Color(0xFF06426D),
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
                   ),
                 ),
               ],
