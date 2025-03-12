@@ -41,8 +41,8 @@ class AuthViewModel with ChangeNotifier {
         // Fetch User Info
         await fetchUserInfo(data['token']);
 
-        // Navigate to User Info Screen
-        Navigator.pushReplacementNamed(context, 'UserInfoScreen');
+        // Navigate to Home Screen
+        Navigator.pushReplacementNamed(context, 'BottomNavBar');
       } else {
         _errorMessage = "Invalid Email or Password";
         print("Login Failed: ${response.body}"); // Debugging

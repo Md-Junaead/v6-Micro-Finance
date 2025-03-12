@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:v1_micro_finance/screens/auth/logout.dart';
 import 'package:v1_micro_finance/screens/dashboard/referrals_screen.dart';
 import 'package:v1_micro_finance/screens/dashboard/help_screen.dart';
-import 'package:v1_micro_finance/screens/profile/my_account_screen.dart';
 import 'package:v1_micro_finance/screens/profile/nominee_screen.dart';
 import 'package:v1_micro_finance/configs/widgets/user_app_bar.dart';
+import 'package:v1_micro_finance/screens/signin/user_info_screen.dart';
 
+// ignore: must_be_immutable
 class UserProfile extends StatelessWidget {
   // Placeholder values for profile name and image
   String profileName = "User Name";
@@ -22,7 +23,7 @@ class UserProfile extends StatelessWidget {
     {
       "title": "My Account",
       "icon": Icons.person,
-      "screen": UserScreen(),
+      "screen": UserInfoScreen(),
     },
     {
       "title": "Nominee",

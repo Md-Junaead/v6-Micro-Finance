@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:v1_micro_finance/configs/routes/routes_name.dart';
-
-// Assuming you are using the `http` package to fetch data from an API.
-// To add the http package to your project, include the following in your `pubspec.yaml`:
-// dependencies:
-//   http: ^0.14.0
+import 'package:v1_micro_finance/screens/signin/auth_view_model.dart';
 
 class AppDrawer extends StatelessWidget {
-  final String demoUsername =
-      'Demo User';
-
-  const AppDrawer({super.key}); // This should be replaced by actual data fetched from API
+  const AppDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // Fetch the logged-in user's name from AuthViewModel
+    final user = Provider.of<AuthViewModel>(context).user;
+
     return Drawer(
       backgroundColor: Color(0xFF06426D), // Background color of the drawer
       child: SingleChildScrollView(
@@ -40,16 +37,17 @@ class AppDrawer extends StatelessWidget {
               padding: EdgeInsets.only(top: 20),
               child: Column(
                 children: [
-                  // Profile Image
+                  // Profile Icon
                   CircleAvatar(
                     radius: 50,
-                    backgroundImage: AssetImage(
-                        'assets/images/image_one.jpeg'), // User image
+                    backgroundColor: Colors.white,
+                    child:
+                        Icon(Icons.person, size: 50, color: Color(0xFF06426D)),
                   ),
                   SizedBox(height: 10),
-                  // Username Text
+                  // Username Text - Updated to show logged-in user's name
                   Text(
-                    demoUsername, // Demo username, replace it with actual API data
+                    user?.name ?? 'User', // Display actual user name or default
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 25,
