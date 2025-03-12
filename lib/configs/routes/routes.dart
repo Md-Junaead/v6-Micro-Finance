@@ -23,7 +23,6 @@ import 'package:v1_micro_finance/screens/profile/edit_profile_screen.dart';
 import 'package:v1_micro_finance/screens/auth/forgot_password.dart';
 import 'package:v1_micro_finance/screens/bottom/home_screen.dart';
 import 'package:v1_micro_finance/screens/auth/signup_screen.dart';
-import 'package:v1_micro_finance/screens/profile/my_account_screen.dart';
 import 'package:v1_micro_finance/screens/profile/nominee_screen.dart';
 import 'package:v1_micro_finance/screens/onBord/splash_screen.dart';
 import 'package:v1_micro_finance/screens/bottom/statement_screen.dart';
@@ -53,10 +52,6 @@ class Routes {
       case RoutesName.testScreen:
         return MaterialPageRoute(
             builder: (BuildContext context) => TestScreen());
-
-      case RoutesName.userInfoScreen:
-        return MaterialPageRoute(
-            builder: (BuildContext context) => UserInfoScreen());
 
 //SplashScreen routes name
 
@@ -152,9 +147,9 @@ class Routes {
         return MaterialPageRoute(
             builder: (BuildContext context) => EditProfileScreen());
 
-      case RoutesName.userScreen:
+      case RoutesName.userInfoScreen:
         return MaterialPageRoute(
-            builder: (BuildContext context) => UserScreen());
+            builder: (BuildContext context) => UserInfoScreen());
 
       case RoutesName.nomineeScreen:
         return MaterialPageRoute(

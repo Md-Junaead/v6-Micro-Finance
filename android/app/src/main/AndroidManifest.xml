@@ -21,7 +21,6 @@
 
     <application
         android:label="v6 FINSYS"
-        android:name="com.example.v6_micro_finance.MyApplication"
         android:icon="@mipmap/launcher_icon"
         android:usesCleartextTraffic="true">  <!-- Allows HTTP requests if API is non-HTTPS -->
 

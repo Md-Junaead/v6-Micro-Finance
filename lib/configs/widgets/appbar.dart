@@ -18,12 +18,17 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       children: [
         const _AppBarBackground(),
         Positioned(
+          top: 30,
           left: 90,
-          right: 20,
+          right: 30,
           bottom: 25,
           child: Row(
             children: [
-              _UserAvatar(imageUrl: vm.user?.imageUrl),
+              // Profile Icon
+              CircleAvatar(
+                backgroundColor: Colors.white,
+                child: Icon(Icons.person, size: 30, color: Color(0xFF06426D)),
+              ),
               const SizedBox(width: 12),
               _UserInfo(
                 username: vm.user?.username ?? 'Loading...',
@@ -53,21 +58,6 @@ class _AppBarBackground extends StatelessWidget {
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
         ),
       ),
-    );
-  }
-}
-
-class _UserAvatar extends StatelessWidget {
-  final String? imageUrl;
-
-  const _UserAvatar({this.imageUrl});
-
-  @override
-  Widget build(BuildContext context) {
-    return CircleAvatar(
-      radius: MediaQuery.of(context).size.width * 0.07,
-      backgroundImage:
-          NetworkImage(imageUrl ?? 'https://via.placeholder.com/150'),
     );
   }
 }
