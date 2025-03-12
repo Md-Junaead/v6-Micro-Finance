@@ -14,9 +14,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CommonAppBar(title: "Notification Screen"),
+      appBar: const CommonAppBar(title: "Notification"),
       body: Center(
-        child: Text('This is the NotificationS  Screen'),
+        child: Text('All The Notification will show here'),
       ),
     );
   }

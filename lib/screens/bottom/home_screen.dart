@@ -10,6 +10,7 @@ import 'package:v1_micro_finance/screens/dashboard/packages_screen.dart';
 import 'package:v1_micro_finance/screens/dashboard/policies.dart';
 import 'package:v1_micro_finance/screens/dashboard/quick_loan_screen.dart';
 import 'package:v1_micro_finance/screens/dashboard/referrals_screen.dart';
+import 'package:v1_micro_finance/screens/policies/about_us.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -33,7 +34,7 @@ class HomeScreen extends StatelessWidget {
       },
 
       {
-        "icon": Icons.real_estate_agent,
+        "icon": Icons.credit_card,
         "label": "Quick Loan",
         "screen": const QuickLoanScreen()
       }, //QuickLoanScreen
@@ -58,6 +59,7 @@ class HomeScreen extends StatelessWidget {
         "label": "Policies",
         "screen": Policies()
       }, //Policies
+      {"icon": Icons.info, "label": "About Us", "screen": AboutUs()},
     ];
 
     return Scaffold(

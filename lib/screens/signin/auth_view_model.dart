@@ -48,7 +48,7 @@ class AuthViewModel with ChangeNotifier {
         print("Login Failed: ${response.body}"); // Debugging
       }
     } catch (e) {
-      _errorMessage = "Something went wrong. Try again!";
+      _errorMessage = "Invalid Email or Password";
       print("Login Error: $e"); // Debugging
     }
 

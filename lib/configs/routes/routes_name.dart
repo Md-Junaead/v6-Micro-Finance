@@ -43,7 +43,6 @@ class RoutesName {
   static const String nomineeScreen = 'NomineeScreen';
 
   //Loan routes name
-  static const String aboutloanScreen = 'AboutloanScreen';
   static const String helpScreen = 'HelpScreen';
   static const String loanRequestScreen = 'LoanRequestScreen';
   static const String loanStatusScreen = 'LoanStatusScreen';

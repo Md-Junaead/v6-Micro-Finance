@@ -8,7 +8,6 @@ import 'package:v1_micro_finance/screens/dashboard/policies.dart';
 import 'package:v1_micro_finance/screens/dashboard/quick_loan_screen.dart';
 import 'package:v1_micro_finance/screens/dashboard/referrals_screen.dart';
 import 'package:v1_micro_finance/screens/dashboard/withdraw_screen.dart';
-import 'package:v1_micro_finance/screens/loan/about_loan_screen.dart';
 import 'package:v1_micro_finance/screens/dashboard/help_screen.dart';
 import 'package:v1_micro_finance/screens/loan/loan_reques_screen.dart';
 import 'package:v1_micro_finance/screens/loan/loan_status_screen.dart';
@@ -156,10 +155,6 @@ class Routes {
             builder: (BuildContext context) => NomineeScreen());
 
 //Loan Routes Name
-
-      case RoutesName.aboutloanScreen:
-        return MaterialPageRoute(
-            builder: (BuildContext context) => AboutloanScreen());
 
       case RoutesName.loanRequestScreen:
         return MaterialPageRoute(

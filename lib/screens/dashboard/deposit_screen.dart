@@ -12,10 +12,10 @@ class _DepositScreenState extends State<DepositScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CommonAppBar(title: "Deposite Screen"),
+      appBar: const CommonAppBar(title: "Deposit"),
       body: const Center(
         child: Text(
-          'This is Deposite Screen',
+          'Make Your Deposit & Earn',
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
       ),

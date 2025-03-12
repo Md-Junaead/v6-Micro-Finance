@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:v1_micro_finance/screens/loan/about_loan_screen.dart';
 import 'package:v1_micro_finance/screens/dashboard/help_screen.dart';
 import 'package:v1_micro_finance/screens/loan/loan_reques_screen.dart';
 import 'package:v1_micro_finance/screens/loan/loan_status_screen.dart';
 import 'package:v1_micro_finance/screens/loan/pay_emi_screen.dart';
 import 'package:v1_micro_finance/configs/widgets/comon_appbar.dart';
+import 'package:v1_micro_finance/screens/policies/about_us.dart';
+import 'package:v1_micro_finance/screens/policies/loan_policy.dart';
 
 class QuickLoanScreen extends StatefulWidget {
   const QuickLoanScreen({super.key});
@@ -18,7 +19,7 @@ class _QuickLoanScreenState extends State<QuickLoanScreen> {
   Widget build(BuildContext context) {
     final List<Map<String, dynamic>> buttons = [
       {
-        "icon": Icons.currency_bitcoin,
+        "icon": Icons.currency_exchange,
         "text": "Loan Request",
         "screen": LoanRequestScreen()
       }, //Loan Request
@@ -40,7 +41,12 @@ class _QuickLoanScreenState extends State<QuickLoanScreen> {
       {
         "icon": Icons.info,
         "text": "About Loan",
-        "screen": AboutloanScreen()
+        "screen": LoanPolicy()
+      }, //About Loan
+      {
+        "icon": Icons.info,
+        "text": "About Us",
+        "screen": AboutUs()
       }, //About Loan
     ];
 

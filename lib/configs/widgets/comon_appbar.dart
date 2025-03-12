@@ -13,6 +13,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
       preferredSize: Size.fromHeight(
           kToolbarHeight + MediaQuery.of(context).size.height * 0.03),
       child: AppBar(
+        // automaticallyImplyLeading: false,
         iconTheme: const IconThemeData(
           color: Colors.white, // Customize icon color
           size: 30,
