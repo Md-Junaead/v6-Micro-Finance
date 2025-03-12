@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:v1_micro_finance/configs/routes/routes_name.dart';
 import 'package:v1_micro_finance/configs/viewmodels/reg_view_model.dart';
+import 'package:v1_micro_finance/configs/widgets/comon_appbar.dart';
 
 class UserRegistrationScreen extends StatefulWidget {
   const UserRegistrationScreen({super.key});
@@ -29,7 +30,7 @@ class _UserRegistrationScreenState extends State<UserRegistrationScreen> {
     final userProvider = Provider.of<UserRegistrationViewModel>(context);
 
     return Scaffold(
-      appBar: AppBar(title: Text('User Registration')),
+      appBar: CommonAppBar(title: "User Registration"),
       body: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: MediaQuery.of(context).size.width * 0.05,
