@@ -1,0 +1,2 @@
+D:/Project/v6_micro_finance/android/app/.cxx/Debug/4zl1y5e6/arm64-v8a/CMakeFiles/edit_cache.dir
+D:/Project/v6_micro_finance/android/app/.cxx/Debug/4zl1y5e6/arm64-v8a/CMakeFiles/rebuild_cache.dir
