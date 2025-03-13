@@ -74,11 +74,12 @@ Message: ${_messageController.text}
         title: "Help Screen",
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: Form(
           key: _formKey,
           child: ListView(
             children: [
+              SizedBox(height: 20),
               // Name
               TextFormField(
                 controller: _nameController,
@@ -93,7 +94,7 @@ Message: ${_messageController.text}
                   return null;
                 },
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 5),
 
               // User ID Field
               TextFormField(
@@ -109,7 +110,7 @@ Message: ${_messageController.text}
                   return null;
                 },
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 5),
 
               // Email Field
               TextFormField(
@@ -128,7 +129,7 @@ Message: ${_messageController.text}
                   return null;
                 },
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 5),
 
               // Subject Field
               TextFormField(
@@ -144,14 +145,14 @@ Message: ${_messageController.text}
                   return null;
                 },
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 5),
 
               // Message Field
               TextFormField(
                 controller: _messageController,
                 maxLines: 5,
                 decoration: InputDecoration(
-                  labelText: 'Message',
+                  labelText: 'Write your Message....!',
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
@@ -161,7 +162,7 @@ Message: ${_messageController.text}
                   return null;
                 },
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 10),
 
               // Submit Button
               SizedBox(
@@ -170,7 +171,7 @@ Message: ${_messageController.text}
                 child: ElevatedButton(
                   onPressed: _submitForm,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
+                    backgroundColor: Color(0xFF06426D),
                     foregroundColor: Colors.white,
                   ),
                   child: Text('Submit'),
