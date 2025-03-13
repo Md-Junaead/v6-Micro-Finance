@@ -1,3 +1,5 @@
+// Login API Here
+
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -20,7 +22,7 @@ class AuthViewModel with ChangeNotifier {
     _errorMessage = null;
     notifyListeners();
 
-    const String loginUrl = "http://108.181.173.121:7071/login";
+    const String loginUrl = "http://108.181.173.121:6060/login";
 
     try {
       final response = await http.post(
@@ -59,7 +61,7 @@ class AuthViewModel with ChangeNotifier {
   /// Fetches logged-in user's information
   Future<void> fetchUserInfo(String token) async {
     const String userApi =
-        "http://108.181.173.121:7071/api/userRegistration/get";
+        "http://108.181.173.121:6060/api/userRegistration/get";
 
     try {
       final response = await http.get(
