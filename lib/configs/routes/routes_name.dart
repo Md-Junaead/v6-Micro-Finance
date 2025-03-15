@@ -41,6 +41,7 @@ class RoutesName {
   static const String editProfileScreen = 'EditProfileScreen';
   static const String userScreen = 'UserScreen';
   static const String nomineeScreen = 'NomineeScreen';
+  static const String nomineeSaveScreen = 'NomineeSaveScreen';
 
   //Loan routes name
   static const String helpScreen = 'HelpScreen';

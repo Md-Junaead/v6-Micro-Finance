@@ -13,6 +13,8 @@ import 'package:v1_micro_finance/screens/loan/loan_reques_screen.dart';
 import 'package:v1_micro_finance/screens/loan/loan_status_screen.dart';
 import 'package:v1_micro_finance/screens/loan/pay_emi_screen.dart';
 import 'package:v1_micro_finance/screens/auth/login_screen.dart';
+import 'package:v1_micro_finance/screens/nominee/nominee_save_screen.dart';
+import 'package:v1_micro_finance/screens/nominee/nominee_screen.dart';
 import 'package:v1_micro_finance/screens/policies/about_us.dart';
 import 'package:v1_micro_finance/screens/policies/beneficiary_funds.dart';
 import 'package:v1_micro_finance/screens/policies/loan_policy.dart';
@@ -22,7 +24,6 @@ import 'package:v1_micro_finance/screens/profile/edit_profile_screen.dart';
 import 'package:v1_micro_finance/screens/auth/forgot_password.dart';
 import 'package:v1_micro_finance/screens/bottom/home_screen.dart';
 import 'package:v1_micro_finance/screens/auth/signup_screen.dart';
-import 'package:v1_micro_finance/screens/profile/nominee_screen.dart';
 import 'package:v1_micro_finance/screens/onBord/splash_screen.dart';
 import 'package:v1_micro_finance/screens/bottom/statement_screen.dart';
 import 'package:v1_micro_finance/screens/auth/verification.dart';
@@ -153,6 +154,10 @@ class Routes {
       case RoutesName.nomineeScreen:
         return MaterialPageRoute(
             builder: (BuildContext context) => NomineeScreen());
+
+      case RoutesName.nomineeSaveScreen:
+        return MaterialPageRoute(
+            builder: (BuildContext context) => NomineeSaveScreen());
 
 //Loan Routes Name
 

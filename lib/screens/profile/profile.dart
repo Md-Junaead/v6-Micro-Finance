@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:v1_micro_finance/screens/auth/logout.dart';
 import 'package:v1_micro_finance/screens/dashboard/referrals_screen.dart';
 import 'package:v1_micro_finance/screens/dashboard/help_screen.dart';
-import 'package:v1_micro_finance/screens/profile/nominee_screen.dart';
 import 'package:v1_micro_finance/configs/widgets/user_app_bar.dart';
+import 'package:v1_micro_finance/screens/nominee/nominee_save_screen.dart';
+import 'package:v1_micro_finance/screens/nominee/nominee_screen.dart';
 import 'package:v1_micro_finance/screens/signin/user_info_screen.dart';
 
 // ignore: must_be_immutable
@@ -29,6 +30,11 @@ class UserProfile extends StatelessWidget {
       "title": "Nominee",
       "icon": Icons.group,
       "screen": NomineeScreen(),
+    },
+    {
+      "title": "Nominee Save",
+      "icon": Icons.group,
+      "screen": NomineeSaveScreen(),
     },
     {
       "title": "Refer & Earn",
