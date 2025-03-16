@@ -5,6 +5,7 @@ import 'package:v1_micro_finance/configs/routes/routes_name.dart';
 import 'package:v1_micro_finance/configs/viewmodels/reg_view_model.dart';
 import 'package:v1_micro_finance/configs/viewmodels/user_view_model.dart';
 import 'package:v1_micro_finance/configs/viewmodels/login_view_model.dart';
+import 'package:v1_micro_finance/screens/loan/loan_view_model.dart';
 import 'package:v1_micro_finance/screens/nominee/nominee_viewmodel.dart';
 import 'package:v1_micro_finance/screens/signin/auth_view_model.dart';
 
@@ -20,6 +21,7 @@ void main() {
         ChangeNotifierProvider(create: (_) => LoginViewModel()),
         ChangeNotifierProvider(create: (context) => AuthViewModel()),
         ChangeNotifierProvider(create: (_) => NomineeViewModel()),
+        ChangeNotifierProvider(create: (_) => LoanViewModel()),
       ],
       child: MicroFinance(),
     ),

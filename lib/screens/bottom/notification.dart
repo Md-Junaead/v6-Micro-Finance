@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:v1_micro_finance/configs/widgets/comon_appbar.dart';
+import 'package:v1_micro_finance/configs/widgets/arrow_appbar.dart';
 
 // Verification Screen
 
@@ -14,7 +14,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CommonAppBar(title: "Notification"),
+      appBar: ArrowAppBar(title: "Notification"),
       body: Center(
         child: Text('All The Notification will show here'),
       ),

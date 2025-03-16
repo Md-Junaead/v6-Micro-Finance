@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:v1_micro_finance/screens/bottom/home_screen.dart';
 import 'package:v1_micro_finance/screens/bottom/statement_screen.dart';
-import 'package:v1_micro_finance/screens/profile/profile.dart';
 import 'package:v1_micro_finance/screens/bottom/notification.dart';
+import 'package:v1_micro_finance/screens/profile/profile.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({super.key});
