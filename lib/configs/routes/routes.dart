@@ -10,6 +10,7 @@ import 'package:v1_micro_finance/screens/dashboard/referrals_screen.dart';
 import 'package:v1_micro_finance/screens/dashboard/withdraw_screen.dart';
 import 'package:v1_micro_finance/screens/dashboard/help_screen.dart';
 import 'package:v1_micro_finance/screens/loan/loan_reques_screen.dart';
+import 'package:v1_micro_finance/screens/loan/loan_save.dart';
 import 'package:v1_micro_finance/screens/loan/loan_status_screen.dart';
 import 'package:v1_micro_finance/screens/loan/pay_emi_screen.dart';
 import 'package:v1_micro_finance/screens/auth/login_screen.dart';
@@ -28,7 +29,6 @@ import 'package:v1_micro_finance/screens/onBord/splash_screen.dart';
 import 'package:v1_micro_finance/screens/bottom/statement_screen.dart';
 import 'package:v1_micro_finance/screens/auth/verification.dart';
 import 'package:v1_micro_finance/screens/onBord/on_board_screen.dart';
-import 'package:v1_micro_finance/screens/profile/profile.dart';
 import 'package:v1_micro_finance/screens/signin/user_info_screen.dart';
 import 'package:v1_micro_finance/screens/withdraw/deposite/deposit_bank.dart';
 import 'package:v1_micro_finance/screens/withdraw/deposite/deposit_gateway.dart';
@@ -109,10 +109,6 @@ class Routes {
         return MaterialPageRoute(
             builder: (BuildContext context) => BottomNavBar());
 
-      case RoutesName.userProfile:
-        return MaterialPageRoute(
-            builder: (BuildContext context) => UserProfile());
-
 //Dashboard routes name
 
       case RoutesName.depositScreen:
@@ -159,11 +155,15 @@ class Routes {
         return MaterialPageRoute(
             builder: (BuildContext context) => NomineeSaveScreen());
 
-//Loan Routes Name
+//Loan Routes Name LoanSaveScreen
 
       case RoutesName.loanRequestScreen:
         return MaterialPageRoute(
             builder: (BuildContext context) => LoanRequestScreen());
+
+      case RoutesName.loanSaveScreen:
+        return MaterialPageRoute(
+            builder: (BuildContext context) => LoanSaveScreen());
 
       case RoutesName.loanStatusScreen:
         return MaterialPageRoute(

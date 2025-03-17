@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:v1_micro_finance/configs/widgets/comon_appbar.dart';
 import 'package:v1_micro_finance/screens/nominee/nominee_save_screen.dart';
 import 'package:v1_micro_finance/screens/nominee/nominee_viewmodel.dart';
 import 'package:v1_micro_finance/screens/signin/auth_view_model.dart';
@@ -33,7 +34,7 @@ class _NomineeScreenState extends State<NomineeScreen> {
     final nomineeVM = Provider.of<NomineeViewModel>(context);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Nominees')),
+      appBar: CommonAppBar(title: "Nominee"),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.push(context,
             MaterialPageRoute(builder: (_) => const NomineeSaveScreen())),
@@ -55,10 +56,31 @@ class _NomineeScreenState extends State<NomineeScreen> {
 
     return ListView.builder(
       itemCount: vm.nominees.length,
-      itemBuilder: (context, index) => ListTile(
-        title: Text(vm.nominees[index].name),
-        subtitle: Text(vm.nominees[index].relationship),
-        trailing: Text(vm.nominees[index].cellNo),
+      itemBuilder: (context, index) => Card(
+        elevation: 4,
+        margin: const EdgeInsets.all(8.0),
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Name: ${vm.nominees[index].name}',
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 4),
+              Text('Relationship: ${vm.nominees[index].relationship}',
+                  style: const TextStyle(fontSize: 18)),
+              const SizedBox(height: 4),
+              Text('Cell: ${vm.nominees[index].cellNo}',
+                  style: const TextStyle(fontSize: 18)),
+              const SizedBox(height: 4),
+              Text('Email: ${vm.nominees[index].email}',
+                  style: const TextStyle(fontSize: 18)),
+            ],
+          ),
+        ),
       ),
     );
   }
