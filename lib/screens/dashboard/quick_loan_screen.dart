@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:v1_micro_finance/screens/dashboard/help_screen.dart';
-import 'package:v1_micro_finance/screens/loan/loan_reques_screen.dart';
-import 'package:v1_micro_finance/screens/loan/loan_save.dart';
 import 'package:v1_micro_finance/screens/loan/loan_status_screen.dart';
 import 'package:v1_micro_finance/screens/loan/pay_emi_screen.dart';
 import 'package:v1_micro_finance/configs/widgets/comon_appbar.dart';
@@ -19,16 +17,11 @@ class _QuickLoanScreenState extends State<QuickLoanScreen> {
   @override
   Widget build(BuildContext context) {
     final List<Map<String, dynamic>> buttons = [
-      {
-        "icon": Icons.currency_exchange,
-        "text": "Loan Request",
-        "screen": LoanRequestScreen()
-      }, //Loan Request
-      {
-        "icon": Icons.currency_exchange,
-        "text": "Loan Request 2",
-        "screen": LoanSaveScreen()
-      },
+      // {
+      //   "icon": Icons.currency_exchange,
+      //   "text": "Loan Request",
+      //   "screen": LoanRequestScreen()
+      // }, //Loan Request
       {
         "icon": Icons.money_sharp,
         "text": "Pay EMI",
@@ -39,6 +32,16 @@ class _QuickLoanScreenState extends State<QuickLoanScreen> {
         "text": "Loan Status",
         "screen": LoanStatusScreen()
       }, //Loan Status
+      {
+        "icon": Icons.edit_document,
+        "text": "Balance",
+        "screen": LoanStatusScreen()
+      }, //Balance
+      {
+        "icon": Icons.edit_document,
+        "text": "Balance save",
+        "screen": LoanStatusScreen()
+      }, //Balance save
       {
         "icon": Icons.help,
         "text": "Help",

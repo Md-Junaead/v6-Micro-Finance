@@ -25,4 +25,6 @@ class UserRegistration {
       'referralCode': referralCode,
     };
   }
+
+  static fromJson(json) {}
 }

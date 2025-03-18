@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:animate_do/animate_do.dart';
-import 'package:v1_micro_finance/configs/viewmodels/user_view_model.dart';
+import 'package:v1_micro_finance/configs/viewmodels/reg_view_model.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({super.key});
@@ -12,7 +12,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final vm = Provider.of<UserViewModel>(context);
+    final vm = Provider.of<UserRegistrationViewModel>(context);
 
     return Stack(
       children: [
@@ -30,12 +30,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 child: Icon(Icons.person, size: 30, color: Color(0xFF06426D)),
               ),
               const SizedBox(width: 12),
-              _UserInfo(
-                username: vm.user?.username ?? 'Loading...',
-                balance: vm.user?.balance.toStringAsFixed(2) ?? '0.00',
-                isBalanceVisible: vm.isBalanceVisible,
-                onCheckBalance: vm.fetchBalance,
-              ),
+              // _UserInfo(
+              //   username: vm.user?.username ?? 'Loading...',
+              //   balance: vm.user?.balance.toStringAsFixed(2) ?? '0.00',
+              //   isBalanceVisible: vm.isBalanceVisible,
+              //   onCheckBalance: vm.fetchBalance,
+              // ),
             ],
           ),
         ),

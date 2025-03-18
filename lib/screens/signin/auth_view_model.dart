@@ -33,7 +33,7 @@ class AuthViewModel with ChangeNotifier {
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        print("Login Successful: $data"); // Debugging
+        // print("Login Successful: $data"); // Debugging
 
         // Save token & user email securely
         SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -47,11 +47,11 @@ class AuthViewModel with ChangeNotifier {
         Navigator.pushReplacementNamed(context, 'BottomNavBar');
       } else {
         _errorMessage = "Invalid Email or Password";
-        print("Login Failed: ${response.body}"); // Debugging
+        // print("Login Failed: ${response.body}"); // Debugging
       }
     } catch (e) {
       _errorMessage = "Invalid Email or Password";
-      print("Login Error: $e"); // Debugging
+      // print("Login Error: $e"); // Debugging
     }
 
     _isLoading = false;
@@ -94,22 +94,22 @@ class AuthViewModel with ChangeNotifier {
 
           if (userJson != null) {
             _user = User.fromJson(userJson);
-            print("User Info Fetched: $_user"); // Debugging
+            // print("User Info Fetched: $_user"); // Debugging
           } else {
             print("No matching user found for email: $userEmail");
           }
         } else if (data is Map<String, dynamic>) {
           // If API directly returns a single user
           _user = User.fromJson(data);
-          print("User Info Fetched: $_user"); // Debugging
+          // print("User Info Fetched: $_user"); // Debugging
         } else {
           print("Unexpected API response format.");
         }
       } else {
-        print("Failed to Fetch User Info: ${response.body}"); // Debugging
+        // print("Failed to Fetch User Info: ${response.body}"); // Debugging
       }
     } catch (e) {
-      print("User Info Fetch Error: $e"); // Debugging
+      // print("User Info Fetch Error: $e"); // Debugging
     }
 
     notifyListeners();
