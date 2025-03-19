@@ -3,80 +3,111 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:v1_micro_finance/screens/loan/loan_model.dart';
+import 'package:v1_micro_finance/screens/signin/user_model.dart';
 
 class LoanViewModel with ChangeNotifier {
-  List<Loan> _loans = [];
   bool _isLoading = false;
   String? _errorMessage;
+  Loan? _currentLoan;
 
-  List<Loan> get loans => _loans;
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
+  Loan? get currentLoan => _currentLoan;
 
-  // Future<void> fetchLoans(int userId) async {
-  //   _isLoading = true;
-  //   notifyListeners();
+  /// Submits a new loan application
+  Future<void> submitLoan({
+    required int loanAmount,
+    required int tenure,
+    required BuildContext context,
+  }) async {
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
 
-  //   try {
-  //     final response = await http.get(
-  //       Uri.parse('http://108.181.173.121:6060/api/loan/get'),
-  //       headers: _authHeaders,
-  //     );
+    try {
+      // Get auth token and user data
+      final prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString('authToken');
+      final userEmail = prefs.getString('loggedInUserEmail');
 
-  //     if (response.statusCode == 200) {
-  //       final allLoans = loanFromJson(response.body);
-  //       _loans = allLoans
-  //           .where((loan) =>
-  //               loan.userRegistration.id == userId) //Error fix require
-  //           .toList();
-  //       _errorMessage = null;
-  //     }
-  //   } catch (e) {
-  //     _errorMessage = "Failed to load loans";
-  //   } finally {
-  //     _isLoading = false;
-  //     notifyListeners();
-  //   }
-  // }
+      if (token == null || userEmail == null) {
+        _errorMessage = "User not authenticated";
+        _isLoading = false;
+        notifyListeners();
+        return;
+      }
 
-  // Future<bool> saveLoan({
-  //   required double amount,
-  //   required int tenure,
-  //   required int userId,
-  //   required int balanceId,
-  // }) async {
-  // try {
-  //   final response = await http.post(
-  //     Uri.parse('http://108.181.173.121:6060/api/loan/save'),
-  //     headers: _authHeaders,
-  //     body: jsonEncode({
-  //       'loanamuont': amount,
-  //       'tenure': tenure,
-  //       'userRegistration': {'id': userId},
-  //       'balance': {'id': balanceId}
-  //     }),
-  //   );
+      // Get user ID and balance ID (you might need to adjust these based on your user model)
+      final currentUser = await _getCurrentUser(token, userEmail);
+      if (currentUser == null) {
+        _errorMessage = "User data not found";
+        _isLoading = false;
+        notifyListeners();
+        return;
+      }
 
-  //   if (response.statusCode == 200) {
-  //     await fetchLoans(userId);
-  //     return true;
-  //   }
-  //   return false;
-  // } catch (e) {
-  //   return false;
-  // }
-  // }
+      // Create loan payload
+      final loanPayload = {
+        "loanamuont": loanAmount,
+        "tenure": tenure,
+        "status": "Pending",
+        "userRegistration": {
+          "id": currentUser.id,
+        },
+        "balance": {
+          "id": currentUser.balance?.id ??
+              0 // Adjust based on your balance ID retrieval
+        }
+      };
 
-  // In loan_viewmodel.dart, fix the headers method:
-  // Map<String, String> get _authHeaders {
-  //   final token = SharedPreferences.getInstance().getString('authToken');
-  //   return {
-  //     'Content-Type': 'application/json',
-  //     'Authorization': 'Bearer $token',
-  //   };
-  // }
-}
+      // Send POST request
+      final response = await http.post(
+        Uri.parse('http://108.181.173.121:6161/api/loan/save'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode(loanPayload),
+      );
 
-extension on Future<SharedPreferences> {
-  getString(String s) {}
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        _currentLoan = Loan.fromJson(data);
+        Navigator.pop(context, true); // Return to previous screen with success
+      } else {
+        _errorMessage = "Loan application failed: ${response.body}";
+      }
+    } catch (e) {
+      _errorMessage = "Error submitting loan: ${e.toString()}";
+      debugPrint("Loan Submission Error: $e");
+    }
+
+    _isLoading = false;
+    notifyListeners();
+  }
+
+  Future<User?> _getCurrentUser(String token, String email) async {
+    try {
+      final response = await http.get(
+        Uri.parse('http://108.181.173.121:6161/api/userRegistration/get'),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        if (data is List) {
+          return data.firstWhere(
+            (user) => user['email'] == email,
+            orElse: () => null,
+          );
+        }
+      }
+    } catch (e) {
+      debugPrint("Error fetching user data: $e");
+    }
+    return null;
+  }
 }

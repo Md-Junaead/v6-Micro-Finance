@@ -1,64 +1,238 @@
-import 'dart:convert';
-import 'package:v1_micro_finance/configs/models/reg_model.dart';
-import 'package:v1_micro_finance/screens/deposit/balance_model.dart';
-
-List<Loan> loanFromJson(String str) {
-  final jsonData = json.decode(str);
-  return List<Loan>.from(jsonData.map((x) => Loan.fromJson(x)));
-}
-
-String loanToJson(List<Loan> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
-
 class Loan {
-  final int id;
-  final double eligibleBalance;
-  final double loanAmount;
-  final double weeklyPay;
-  final double totalPay;
-  final int tenure;
-  final String? status;
-  final String? requestDate;
-  final UserRegistration userRegistration;
-  final Balance? balance;
+  int? id;
+  int? eligeblebalancey;
+  int? loanamuont;
+  double? weeklypay;
+  double? totalpay;
+  int? tenure;
+  String? status;
+  String? requestdate;
+  UserRegistration? userRegistration;
+  Balance? balance;
 
   Loan({
-    required this.id,
-    required this.eligibleBalance,
-    required this.loanAmount,
-    required this.weeklyPay,
-    required this.totalPay,
-    required this.tenure,
+    this.id,
+    this.eligeblebalancey,
+    this.loanamuont,
+    this.weeklypay,
+    this.totalpay,
+    this.tenure,
     this.status,
-    this.requestDate,
-    required this.userRegistration,
+    this.requestdate,
+    this.userRegistration,
     this.balance,
   });
 
   factory Loan.fromJson(Map<String, dynamic> json) => Loan(
         id: json["id"],
-        eligibleBalance: (json["eligeblebalancey"] as num).toDouble(),
-        loanAmount: (json["loanamuont"] as num).toDouble(),
-        weeklyPay: (json["weeklypay"] as num).toDouble(),
-        totalPay: (json["totalpay"] as num).toDouble(),
+        eligeblebalancey: json["eligeblebalancey"],
+        loanamuont: json["loanamuont"],
+        weeklypay: json["weeklypay"]?.toDouble(),
+        totalpay: json["totalpay"]?.toDouble(),
         tenure: json["tenure"],
         status: json["status"],
-        requestDate: json["requestdate"],
-        userRegistration: UserRegistration.fromJson(json["userRegistration"]),
+        requestdate: json["requestdate"],
+        userRegistration: json["userRegistration"] == null
+            ? null
+            : UserRegistration.fromJson(json["userRegistration"]),
         balance:
-            json["balance"] != null ? Balance.fromJson(json["balance"]) : null,
+            json["balance"] == null ? null : Balance.fromJson(json["balance"]),
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "eligeblebalancey": eligibleBalance,
-        "loanamuont": loanAmount,
-        "weeklypay": weeklyPay,
-        "totalpay": totalPay,
+        "eligeblebalancey": eligeblebalancey,
+        "loanamuont": loanamuont,
+        "weeklypay": weeklypay,
+        "totalpay": totalpay,
         "tenure": tenure,
         "status": status,
-        "requestdate": requestDate,
-        "userRegistration": userRegistration.toJson(),
-        // "balance": balance?.toJson(),
+        "requestdate": requestdate,
+        "userRegistration": userRegistration?.toJson(),
+        "balance": balance?.toJson(),
+      };
+}
+
+class UserRegistration {
+  int? id;
+  String? userid;
+  String? name;
+  String? email;
+  String? password;
+  String? phoneNo;
+  String? address;
+  String? country;
+  String? dob;
+  String? referralCode;
+  String? nidnumber;
+  dynamic passport;
+  bool? active;
+  String? role;
+  bool? enabled;
+  List<Authority>? authorities;
+  bool? lock;
+  bool? accountNonLocked;
+  String? username;
+  bool? accountNonExpired;
+  bool? credentialsNonExpired;
+
+  UserRegistration({
+    this.id,
+    this.userid,
+    this.name,
+    this.email,
+    this.password,
+    this.phoneNo,
+    this.address,
+    this.country,
+    this.dob,
+    this.referralCode,
+    this.nidnumber,
+    this.passport,
+    this.active,
+    this.role,
+    this.enabled,
+    this.authorities,
+    this.lock,
+    this.accountNonLocked,
+    this.username,
+    this.accountNonExpired,
+    this.credentialsNonExpired,
+  });
+
+  factory UserRegistration.fromJson(Map<String, dynamic> json) =>
+      UserRegistration(
+        id: json["id"],
+        userid: json["userid"],
+        name: json["name"],
+        email: json["email"],
+        password: json["password"],
+        phoneNo: json["phoneNo"],
+        address: json["address"],
+        country: json["country"],
+        dob: json["dob"],
+        referralCode: json["referralCode"],
+        nidnumber: json["nidnumber"],
+        passport: json["passport"],
+        active: json["active"],
+        role: json["role"],
+        enabled: json["enabled"],
+        authorities: json["authorities"] == null
+            ? []
+            : List<Authority>.from(
+                json["authorities"]!.map((x) => Authority.fromJson(x))),
+        lock: json["lock"],
+        accountNonLocked: json["accountNonLocked"],
+        username: json["username"],
+        accountNonExpired: json["accountNonExpired"],
+        credentialsNonExpired: json["credentialsNonExpired"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "userid": userid,
+        "name": name,
+        "email": email,
+        "password": password,
+        "phoneNo": phoneNo,
+        "address": address,
+        "country": country,
+        "dob": dob,
+        "referralCode": referralCode,
+        "nidnumber": nidnumber,
+        "passport": passport,
+        "active": active,
+        "role": role,
+        "enabled": enabled,
+        "authorities": authorities == null
+            ? []
+            : List<dynamic>.from(authorities!.map((x) => x.toJson())),
+        "lock": lock,
+        "accountNonLocked": accountNonLocked,
+        "username": username,
+        "accountNonExpired": accountNonExpired,
+        "credentialsNonExpired": credentialsNonExpired,
+      };
+}
+
+class Balance {
+  int? id;
+  int? addBalance;
+  int? dipositB;
+  String? packages;
+  double? profitB;
+  int? referralB;
+  int? dipositwithdra;
+  int? profitwithdra;
+  String? date;
+  String? status;
+  bool? active;
+  UserRegistration? userRegistration;
+  dynamic referral;
+
+  Balance({
+    this.id,
+    this.addBalance,
+    this.dipositB,
+    this.packages,
+    this.profitB,
+    this.referralB,
+    this.dipositwithdra,
+    this.profitwithdra,
+    this.date,
+    this.status,
+    this.active,
+    this.userRegistration,
+    this.referral,
+  });
+
+  factory Balance.fromJson(Map<String, dynamic> json) => Balance(
+        id: json["id"],
+        addBalance: json["addBalance"],
+        dipositB: json["dipositB"],
+        packages: json["packages"],
+        profitB: json["profitB"]?.toDouble(),
+        referralB: json["referralB"],
+        dipositwithdra: json["dipositwithdra"],
+        profitwithdra: json["profitwithdra"],
+        date: json["date"],
+        status: json["status"],
+        active: json["active"],
+        userRegistration: json["userRegistration"] == null
+            ? null
+            : UserRegistration.fromJson(json["userRegistration"]),
+        referral: json["referral"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "addBalance": addBalance,
+        "dipositB": dipositB,
+        "packages": packages,
+        "profitB": profitB,
+        "referralB": referralB,
+        "dipositwithdra": dipositwithdra,
+        "profitwithdra": profitwithdra,
+        "date": date,
+        "status": status,
+        "active": active,
+        "userRegistration": userRegistration?.toJson(),
+        "referral": referral,
+      };
+}
+
+class Authority {
+  String? authority;
+
+  Authority({
+    this.authority,
+  });
+
+  factory Authority.fromJson(Map<String, dynamic> json) => Authority(
+        authority: json["authority"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "authority": authority,
       };
 }
