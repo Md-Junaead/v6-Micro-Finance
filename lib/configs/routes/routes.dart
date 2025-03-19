@@ -9,8 +9,9 @@ import 'package:v1_micro_finance/screens/dashboard/quick_loan_screen.dart';
 import 'package:v1_micro_finance/screens/dashboard/referrals_screen.dart';
 import 'package:v1_micro_finance/screens/dashboard/withdraw_screen.dart';
 import 'package:v1_micro_finance/screens/dashboard/help_screen.dart';
+import 'package:v1_micro_finance/screens/deposit/balance_save.dart';
+import 'package:v1_micro_finance/screens/deposit/balance_screen.dart';
 import 'package:v1_micro_finance/screens/loan/loan_reques_screen.dart';
-import 'package:v1_micro_finance/screens/loan/loan_save.dart';
 import 'package:v1_micro_finance/screens/loan/loan_status_screen.dart';
 import 'package:v1_micro_finance/screens/loan/pay_emi_screen.dart';
 import 'package:v1_micro_finance/screens/auth/login_screen.dart';
@@ -52,6 +53,14 @@ class Routes {
       case RoutesName.testScreen:
         return MaterialPageRoute(
             builder: (BuildContext context) => TestScreen());
+
+      case RoutesName.balanceScreen:
+        return MaterialPageRoute(
+            builder: (BuildContext context) => BalanceScreen());
+
+      case RoutesName.balanceSaveScreen:
+        return MaterialPageRoute(
+            builder: (BuildContext context) => BalanceSaveScreen());
 
 //SplashScreen routes name
 
@@ -160,10 +169,6 @@ class Routes {
       case RoutesName.loanRequestScreen:
         return MaterialPageRoute(
             builder: (BuildContext context) => LoanRequestScreen());
-
-      case RoutesName.loanSaveScreen:
-        return MaterialPageRoute(
-            builder: (BuildContext context) => LoanSaveScreen());
 
       case RoutesName.loanStatusScreen:
         return MaterialPageRoute(

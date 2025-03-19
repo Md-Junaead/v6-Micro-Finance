@@ -58,7 +58,7 @@ class UserRegistrationViewModel extends ChangeNotifier {
         email.isNotEmpty) {
       try {
         final response = await http.post(
-          Uri.parse('http://108.181.173.121:6060/api/userRegistration'),
+          Uri.parse('http://108.181.173.121:6161/api/userRegistration'),
           headers: {'Content-Type': 'application/json'},
           body: json.encode({
             'country': country,

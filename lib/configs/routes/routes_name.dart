@@ -3,6 +3,9 @@ class RoutesName {
   static const String testScreen = 'TestScreen';
   static const String userInfoScreen = 'UserInfoScreen';
 
+  static const String balanceScreen = 'BalanceScreen';
+  static const String balanceSaveScreen = 'BalanceSaveScreen';
+
   //SplashScreen routes name
   static const String splashScreen = 'SplashScreen';
   static const String startedScreen = 'StartedScreen';

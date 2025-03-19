@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:v1_micro_finance/configs/viewmodels/user_view_model.dart';
+import 'package:v1_micro_finance/configs/viewmodels/reg_view_model.dart';
 import 'package:v1_micro_finance/configs/widgets/app_drawer.dart';
 import 'package:v1_micro_finance/configs/widgets/appbar.dart';
 import 'package:v1_micro_finance/screens/dashboard/check_balance_screen.dart';
@@ -10,6 +10,7 @@ import 'package:v1_micro_finance/screens/dashboard/packages_screen.dart';
 import 'package:v1_micro_finance/screens/dashboard/policies.dart';
 import 'package:v1_micro_finance/screens/dashboard/quick_loan_screen.dart';
 import 'package:v1_micro_finance/screens/dashboard/referrals_screen.dart';
+import 'package:v1_micro_finance/screens/deposit/balance_screen.dart';
 import 'package:v1_micro_finance/screens/policies/about_us.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -17,12 +18,12 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final vm = Provider.of<UserViewModel>(context, listen: false);
+    final vm = Provider.of<UserRegistrationViewModel>(context, listen: false);
 
     // Fetch initial user data
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      vm.fetchUserData();
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   vm.fetchUserData();
+    // });
 
     // Grid items configuration
     final List<Map<String, dynamic>> dashboardItems = [
