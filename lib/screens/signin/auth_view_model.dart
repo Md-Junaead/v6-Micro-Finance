@@ -22,7 +22,7 @@ class AuthViewModel with ChangeNotifier {
     _errorMessage = null;
     notifyListeners();
 
-    const String loginUrl = "http://108.181.173.121:6060/login";
+    const String loginUrl = "http://108.181.173.121:6161/login";
 
     try {
       final response = await http.post(
@@ -61,7 +61,7 @@ class AuthViewModel with ChangeNotifier {
   /// Fetches logged-in user's information
   Future<void> fetchUserInfo(String token) async {
     const String userApi =
-        "http://108.181.173.121:6060/api/userRegistration/get";
+        "http://108.181.173.121:6161/api/userRegistration/get";
 
     try {
       final response = await http.get(
