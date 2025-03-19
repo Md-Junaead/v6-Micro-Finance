@@ -1,62 +1,66 @@
-// balance_save_screen.dart
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'balance_view_model.dart';
+import 'package:v1_micro_finance/screens/deposit/balance_view_model.dart';
+import 'package:v1_micro_finance/screens/signin/auth_view_model.dart';
 
-class BalanceSaveScreen extends StatefulWidget {
-  final String userId;
+class BalanceSaveScreen extends StatelessWidget {
+  final _amountController = TextEditingController();
 
-  const BalanceSaveScreen({super.key, required this.userId});
-
-  @override
-  _BalanceSaveScreenState createState() => _BalanceSaveScreenState();
-}
-
-class _BalanceSaveScreenState extends State<BalanceSaveScreen> {
-  final _controller = TextEditingController();
-
-  // Function to handle deposit action
-  void _deposit() async {
-    final amount = double.tryParse(_controller.text);
-    if (amount != null && amount > 0) {
-      try {
-        await Provider.of<BalanceViewModel>(context, listen: false)
-            .depositBalance(widget.userId, amount);
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('Deposit successful!')));
-        Navigator.pop(context); // Go back to balance screen after deposit
-      } catch (error) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('Deposit failed')));
-      }
-    } else {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Invalid deposit amount')));
-    }
-  }
+  BalanceSaveScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final authViewModel = Provider.of<AuthViewModel>(context);
+    final balanceViewModel = Provider.of<BalanceViewModel>(context);
+
     return Scaffold(
-      appBar: AppBar(title: Text('Deposit Balance')),
+      appBar: AppBar(title: const Text('Add Balance')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             TextField(
-              controller: _controller,
+              controller: _amountController,
               keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                labelText: 'Enter Deposit Amount',
+              decoration: const InputDecoration(
+                labelText: 'Amount',
                 border: OutlineInputBorder(),
               ),
             ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _deposit,
-              child: Text('Deposit'),
-            ),
+            const SizedBox(height: 20),
+            if (balanceViewModel.isLoading)
+              const CircularProgressIndicator()
+            else
+              ElevatedButton(
+                onPressed: () async {
+                  final amount = int.tryParse(_amountController.text);
+                  final user = authViewModel.user;
+
+                  if (amount == null) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Invalid amount')),
+                    );
+                  } else if (user == null) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('User not logged in')),
+                    );
+                  } else {
+                    await balanceViewModel.saveBalance(amount, user.id);
+                    if (balanceViewModel.errorMessage == null) {
+                      Navigator.pop(context);
+                    }
+                  }
+                },
+                child: const Text('Submit'),
+              ),
+            if (balanceViewModel.errorMessage != null)
+              Padding(
+                padding: const EdgeInsets.only(top: 16.0),
+                child: Text(
+                  balanceViewModel.errorMessage!,
+                  style: TextStyle(color: Colors.red[700]),
+                ),
+              )
           ],
         ),
       ),

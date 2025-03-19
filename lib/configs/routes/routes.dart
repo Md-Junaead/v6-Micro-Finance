@@ -56,15 +56,11 @@ class Routes {
 
       case RoutesName.balanceScreen:
         return MaterialPageRoute(
-            builder: (BuildContext context) => BalanceScreen(
-                  userId: '',
-                ));
+            builder: (BuildContext context) => BalanceScreen());
 
       case RoutesName.balanceSaveScreen:
         return MaterialPageRoute(
-            builder: (BuildContext context) => BalanceSaveScreen(
-                  userId: '',
-                ));
+            builder: (BuildContext context) => BalanceSaveScreen());
 
 //SplashScreen routes name
 

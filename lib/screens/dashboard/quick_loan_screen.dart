@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:v1_micro_finance/screens/dashboard/help_screen.dart';
+import 'package:v1_micro_finance/screens/deposit/balance_save.dart';
+import 'package:v1_micro_finance/screens/deposit/balance_screen.dart';
 import 'package:v1_micro_finance/screens/loan/loan_status_screen.dart';
 import 'package:v1_micro_finance/screens/loan/pay_emi_screen.dart';
 import 'package:v1_micro_finance/configs/widgets/comon_appbar.dart';
@@ -35,12 +37,12 @@ class _QuickLoanScreenState extends State<QuickLoanScreen> {
       {
         "icon": Icons.edit_document,
         "text": "Balance",
-        "screen": LoanStatusScreen()
+        "screen": BalanceScreen()
       }, //Balance
       {
         "icon": Icons.edit_document,
         "text": "Balance save",
-        "screen": LoanStatusScreen()
+        "screen": BalanceSaveScreen()
       }, //Balance save
       {
         "icon": Icons.help,

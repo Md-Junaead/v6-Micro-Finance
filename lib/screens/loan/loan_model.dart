@@ -59,6 +59,6 @@ class Loan {
         "status": status,
         "requestdate": requestDate,
         "userRegistration": userRegistration.toJson(),
-        "balance": balance?.toJson(),
+        // "balance": balance?.toJson(),
       };
 }

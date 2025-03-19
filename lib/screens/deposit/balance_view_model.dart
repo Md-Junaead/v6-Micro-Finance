@@ -1,45 +1,57 @@
-// balance_view_model.dart
-
-import 'package:flutter/material.dart';
-import 'balance_model.dart';
-import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
-class BalanceViewModel extends ChangeNotifier {
-  Balance? _balance;
+class BalanceViewModel with ChangeNotifier {
+  bool _isLoading = false;
+  String? _errorMessage;
 
-  Balance? get balance => _balance;
+  bool get isLoading => _isLoading;
+  String? get errorMessage => _errorMessage;
 
-  // Fetch balance from the API
-  Future<void> fetchBalance(String userId) async {
-    final response = await http.get(Uri.parse(
-        'http://108.181.173.121:6060/api/Balance/get?userId=$userId'));
+  Future<void> saveBalance(int addBalance, int userId) async {
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
 
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      _balance = Balance.fromJson(data);
-      notifyListeners(); // Notify UI to rebuild
-    } else {
-      throw Exception('Failed to load balance');
-    }
-  }
+    const url = 'http://108.181.173.121:6161/api/Balance/save';
 
-  // Deposit function to save balance
-  Future<void> depositBalance(String userId, double amount) async {
-    final response = await http.post(
-      Uri.parse('http://108.181.173.121:6060/api/Balance/save'),
-      headers: {'Content-Type': 'application/json'},
-      body: json.encode({
-        'userId': userId,
-        'dipositB': amount,
-      }),
-    );
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString('authToken');
 
-    if (response.statusCode == 200) {
-      // Assuming balance was successfully saved, refetch it
-      fetchBalance(userId);
-    } else {
-      throw Exception('Failed to deposit balance');
+      if (token == null) {
+        _errorMessage = 'Authentication required';
+        _isLoading = false;
+        notifyListeners();
+        return;
+      }
+
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode({
+          'addBalance': addBalance,
+          'userRegistration': {'id': userId}
+        }),
+      );
+
+      debugPrint('Status: ${response.statusCode}, Body: ${response.body}');
+
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        _errorMessage = null;
+      } else {
+        _errorMessage = 'Failed to save balance: ${response.body}';
+      }
+    } catch (e) {
+      _errorMessage = 'Connection error: $e';
+    } finally {
+      _isLoading = false;
+      notifyListeners();
     }
   }
 }
