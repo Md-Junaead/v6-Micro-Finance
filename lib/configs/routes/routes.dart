@@ -11,7 +11,6 @@ import 'package:v1_micro_finance/screens/dashboard/withdraw_screen.dart';
 import 'package:v1_micro_finance/screens/dashboard/help_screen.dart';
 import 'package:v1_micro_finance/screens/deposit/balance_save.dart';
 import 'package:v1_micro_finance/screens/deposit/balance_screen.dart';
-import 'package:v1_micro_finance/screens/loan/loan_reques_screen.dart';
 import 'package:v1_micro_finance/screens/loan/loan_status_screen.dart';
 import 'package:v1_micro_finance/screens/loan/pay_emi_screen.dart';
 import 'package:v1_micro_finance/screens/auth/login_screen.dart';
@@ -165,10 +164,6 @@ class Routes {
             builder: (BuildContext context) => NomineeSaveScreen());
 
 //Loan Routes Name LoanSaveScreen
-
-      case RoutesName.loanRequestScreen:
-        return MaterialPageRoute(
-            builder: (BuildContext context) => LoanRequestScreen());
 
       case RoutesName.loanStatusScreen:
         return MaterialPageRoute(
