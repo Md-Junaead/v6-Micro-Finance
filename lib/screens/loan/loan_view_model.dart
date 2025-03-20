@@ -2,81 +2,99 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:v1_micro_finance/screens/loan/loan_model.dart';
 
 class LoanViewModel with ChangeNotifier {
-  List<Loan> _loans = [];
   bool _isLoading = false;
   String? _errorMessage;
+  bool _loanSuccess = false;
 
-  List<Loan> get loans => _loans;
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
+  bool get loanSuccess => _loanSuccess;
 
-  // Future<void> fetchLoans(int userId) async {
-  //   _isLoading = true;
-  //   notifyListeners();
+  Future<void> saveLoan({
+    required int loanAmount,
+    required int tenure,
+    required int userId,
+  }) async {
+    _isLoading = true;
+    _errorMessage = null;
+    _loanSuccess = false;
+    notifyListeners();
 
-  //   try {
-  //     final response = await http.get(
-  //       Uri.parse('http://108.181.173.121:6060/api/loan/get'),
-  //       headers: _authHeaders,
-  //     );
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString("authToken");
 
-  //     if (response.statusCode == 200) {
-  //       final allLoans = loanFromJson(response.body);
-  //       _loans = allLoans
-  //           .where((loan) =>
-  //               loan.userRegistration.id == userId) //Error fix require
-  //           .toList();
-  //       _errorMessage = null;
-  //     }
-  //   } catch (e) {
-  //     _errorMessage = "Failed to load loans";
-  //   } finally {
-  //     _isLoading = false;
-  //     notifyListeners();
-  //   }
-  // }
+      // Validate token existence
+      if (token == null || token.isEmpty) {
+        _errorMessage = "Authentication expired. Please login again.";
+        debugPrint("Missing auth token");
+        return;
+      }
 
-  // Future<bool> saveLoan({
-  //   required double amount,
-  //   required int tenure,
-  //   required int userId,
-  //   required int balanceId,
-  // }) async {
-  // try {
-  //   final response = await http.post(
-  //     Uri.parse('http://108.181.173.121:6060/api/loan/save'),
-  //     headers: _authHeaders,
-  //     body: jsonEncode({
-  //       'loanamuont': amount,
-  //       'tenure': tenure,
-  //       'userRegistration': {'id': userId},
-  //       'balance': {'id': balanceId}
-  //     }),
-  //   );
+      // Construct request body according to API requirements
+      final requestBody = {
+        "loanamuont": loanAmount,
+        "tenure": tenure,
+        "status": "Pending",
+        "userRegistration": {"id": userId}
+      };
 
-  //   if (response.statusCode == 200) {
-  //     await fetchLoans(userId);
-  //     return true;
-  //   }
-  //   return false;
-  // } catch (e) {
-  //   return false;
-  // }
-  // }
+      debugPrint("Attempting loan save with:");
+      debugPrint("Token: ${token.substring(0, 15)}...");
+      debugPrint("Request Body: ${jsonEncode(requestBody)}");
 
-  // In loan_viewmodel.dart, fix the headers method:
-  // Map<String, String> get _authHeaders {
-  //   final token = SharedPreferences.getInstance().getString('authToken');
-  //   return {
-  //     'Content-Type': 'application/json',
-  //     'Authorization': 'Bearer $token',
-  //   };
-  // }
-}
+      final response = await http.post(
+        Uri.parse("http://108.181.173.121:6161/api/loan/save"),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode(
+            requestBody), // Use manual body instead of model.toJson()
+      );
 
-extension on Future<SharedPreferences> {
-  getString(String s) {}
+      debugPrint("API Response: ${response.statusCode} - ${response.body}");
+
+      if (response.statusCode == 200) {
+        _loanSuccess = true;
+        debugPrint("Loan saved successfully");
+      } else if (response.statusCode == 403) {
+        _handle403Error(response);
+      } else {
+        _errorMessage = "Server error: ${response.body}";
+      }
+    } catch (e) {
+      _errorMessage = "Network error: ${e.toString()}";
+      debugPrint("Exception: $e");
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  void _handle403Error(http.Response response) {
+    try {
+      final errorData = jsonDecode(response.body);
+      if (errorData.containsKey('message')) {
+        _errorMessage = errorData['message'];
+      } else {
+        _errorMessage = "Authorization failed. Possible reasons:\n"
+            "- Insufficient account balance\n"
+            "- Account verification required\n"
+            "- Loan limit exceeded";
+      }
+    } catch (e) {
+      _errorMessage = "Forbidden: ${response.body}";
+    }
+
+    debugPrint("403 Error Details: $_errorMessage");
+  }
+
+  void resetState() {
+    _loanSuccess = false;
+    _errorMessage = null;
+    notifyListeners();
+  }
 }

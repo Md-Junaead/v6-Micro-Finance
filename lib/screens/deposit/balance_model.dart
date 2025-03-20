@@ -117,4 +117,6 @@ class Balance {
       referral: json['referral'],
     );
   }
+
+  toJson() {}
 }
