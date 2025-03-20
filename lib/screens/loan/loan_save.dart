@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:v1_micro_finance/configs/widgets/comon_appbar.dart';
 import 'package:v1_micro_finance/screens/loan/loan_view_model.dart';
 import 'package:v1_micro_finance/screens/signin/auth_view_model.dart';
 
@@ -27,9 +28,7 @@ class _LoanSaveScreenState extends State<LoanSaveScreen> {
     final loanViewModel = Provider.of<LoanViewModel>(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Apply for Loan"),
-      ),
+      appBar: CommonAppBar(title: "Loan Request"),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(

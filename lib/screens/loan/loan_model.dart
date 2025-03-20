@@ -1,6 +1,7 @@
 class Loan {
   int? id;
-  int? eligeblebalancey;
+  double? eligeblebalancey;
+  // int? eligeblebalancey;
   int? loanamuont;
   double? weeklypay;
   double? totalpay;
@@ -23,10 +24,20 @@ class Loan {
     this.balance,
   });
 
-  factory Loan.fromJson(Map<String, dynamic> json) => Loan(
+  factory Loan.fromJson(Map<String, dynamic> json) {
+    try {
+      // print("ID Type: ${json["id"]?.runtimeType}");
+      // print("eligeblebalancey Type: ${json["eligeblebalancey"]?.runtimeType}");
+      // print("loanamuont Type: ${json["loanamuont"]?.runtimeType}");
+      // print("weeklypay Type: ${json["weeklypay"]?.runtimeType}");
+      // print("totalpay Type: ${json["totalpay"]?.runtimeType}");
+      // print("tenure Type: ${json["tenure"]?.runtimeType}");
+
+      return Loan(
         id: json["id"],
-        eligeblebalancey: json["eligeblebalancey"],
-        loanamuont: json["loanamuont"],
+        eligeblebalancey: (json["eligeblebalancey"] as num?)
+            ?.toDouble(), // Convert num to double
+        loanamuont: json["loanamuont"], // This might need conversion
         weeklypay: json["weeklypay"]?.toDouble(),
         totalpay: json["totalpay"]?.toDouble(),
         tenure: json["tenure"],
@@ -38,6 +49,12 @@ class Loan {
         balance:
             json["balance"] == null ? null : Balance.fromJson(json["balance"]),
       );
+    } catch (e, stacktrace) {
+      print("Loan fetch error: $e");
+      print(stacktrace);
+      return Loan(); // Return an empty object to avoid crashes
+    }
+  }
 
   Map<String, dynamic> toJson() => {
         "id": id,
