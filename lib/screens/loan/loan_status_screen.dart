@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
-import 'package:v1_micro_finance/configs/widgets/comon_appbar.dart';
 import 'package:v1_micro_finance/screens/loan/loan_list_viewmodel.dart';
 import 'package:v1_micro_finance/screens/loan/loan_model.dart';
 
@@ -32,10 +31,17 @@ class _LoanStatusScreenState extends State<LoanStatusScreen> {
     }
   }
 
+  /// Formats a double value to 2 decimal places. If null, returns 'N/A'.
+  String formatDouble(double? value) {
+    return value != null ? value.toStringAsFixed(2) : 'N/A';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CommonAppBar(title: "Loan Status"),
+      appBar: AppBar(
+        title: const Text("Your Loan Requests"),
+      ),
       body: Consumer<LoanListViewModel>(
         builder: (context, viewModel, child) {
           if (viewModel.isLoading) {
@@ -63,20 +69,13 @@ class _LoanStatusScreenState extends State<LoanStatusScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Name: ${loan.userRegistration?.name ?? 'N/A'}",
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(height: 4),
-                      Text("Email: ${loan.userRegistration?.email ?? 'N/A'}"),
-                      const SizedBox(height: 14),
-                      Text(
-                          "Eligible Balance: ${loan.eligeblebalancey ?? 'N/A'}"),
+                          "Eligible Balance: ${formatDouble(loan.eligeblebalancey)}"),
                       const SizedBox(height: 4),
                       Text("Loan Amount: ${loan.loanamuont ?? 'N/A'}"),
                       const SizedBox(height: 4),
-                      Text("Weekly Pay: ${loan.weeklypay ?? 'N/A'}"),
+                      Text("Weekly Pay: ${formatDouble(loan.weeklypay)}"),
                       const SizedBox(height: 4),
-                      Text("Total Pay: ${loan.totalpay ?? 'N/A'}"),
+                      Text("Total Pay: ${formatDouble(loan.totalpay)}"),
                       const SizedBox(height: 4),
                       Text("Tenure: ${loan.tenure ?? 'N/A'}"),
                       const SizedBox(height: 4),
@@ -84,6 +83,13 @@ class _LoanStatusScreenState extends State<LoanStatusScreen> {
                       const SizedBox(height: 4),
                       Text(
                           "Request Date: ${formatRequestDate(loan.requestdate)}"),
+                      const SizedBox(height: 4),
+                      Text(
+                        "Name: ${loan.userRegistration?.name ?? 'N/A'}",
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 4),
+                      Text("Email: ${loan.userRegistration?.email ?? 'N/A'}"),
                     ],
                   ),
                 ),
