@@ -2,112 +2,99 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:v1_micro_finance/screens/loan/loan_model.dart';
-import 'package:v1_micro_finance/screens/signin/user_model.dart';
 
 class LoanViewModel with ChangeNotifier {
   bool _isLoading = false;
   String? _errorMessage;
-  Loan? _currentLoan;
+  bool _loanSuccess = false;
 
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
-  Loan? get currentLoan => _currentLoan;
+  bool get loanSuccess => _loanSuccess;
 
-  /// Submits a new loan application
-  Future<void> submitLoan({
+  Future<void> saveLoan({
     required int loanAmount,
     required int tenure,
-    required BuildContext context,
+    required int userId,
   }) async {
     _isLoading = true;
     _errorMessage = null;
+    _loanSuccess = false;
     notifyListeners();
 
     try {
-      // Get auth token and user data
       final prefs = await SharedPreferences.getInstance();
-      final token = prefs.getString('authToken');
-      final userEmail = prefs.getString('loggedInUserEmail');
+      final token = prefs.getString("authToken");
 
-      if (token == null || userEmail == null) {
-        _errorMessage = "User not authenticated";
-        _isLoading = false;
-        notifyListeners();
+      // Validate token existence
+      if (token == null || token.isEmpty) {
+        _errorMessage = "Authentication expired. Please login again.";
+        debugPrint("Missing auth token");
         return;
       }
 
-      // Get user ID and balance ID (you might need to adjust these based on your user model)
-      final currentUser = await _getCurrentUser(token, userEmail);
-      if (currentUser == null) {
-        _errorMessage = "User data not found";
-        _isLoading = false;
-        notifyListeners();
-        return;
-      }
-
-      // Create loan payload
-      final loanPayload = {
+      // Construct request body according to API requirements
+      final requestBody = {
         "loanamuont": loanAmount,
         "tenure": tenure,
         "status": "Pending",
-        "userRegistration": {
-          "id": currentUser.id,
-        },
-        "balance": {
-          "id": currentUser.balance?.id ??
-              0 // Adjust based on your balance ID retrieval
-        }
+        "userRegistration": {"id": userId}
       };
 
-      // Send POST request
+      debugPrint("Attempting loan save with:");
+      debugPrint("Token: ${token.substring(0, 15)}...");
+      debugPrint("Request Body: ${jsonEncode(requestBody)}");
+
       final response = await http.post(
-        Uri.parse('http://108.181.173.121:6161/api/loan/save'),
+        Uri.parse("http://108.181.173.121:6161/api/loan/save"),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
         },
-        body: jsonEncode(loanPayload),
+        body: jsonEncode(
+            requestBody), // Use manual body instead of model.toJson()
       );
 
+      debugPrint("API Response: ${response.statusCode} - ${response.body}");
+
       if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-        _currentLoan = Loan.fromJson(data);
-        Navigator.pop(context, true); // Return to previous screen with success
+        _loanSuccess = true;
+        debugPrint("Loan saved successfully");
+      } else if (response.statusCode == 403) {
+        _handle403Error(response);
       } else {
-        _errorMessage = "Loan application failed: ${response.body}";
+        _errorMessage = "Server error: ${response.body}";
       }
     } catch (e) {
-      _errorMessage = "Error submitting loan: ${e.toString()}";
-      debugPrint("Loan Submission Error: $e");
+      _errorMessage = "Network error: ${e.toString()}";
+      debugPrint("Exception: $e");
+    } finally {
+      _isLoading = false;
+      notifyListeners();
     }
-
-    _isLoading = false;
-    notifyListeners();
   }
 
-  Future<User?> _getCurrentUser(String token, String email) async {
+  void _handle403Error(http.Response response) {
     try {
-      final response = await http.get(
-        Uri.parse('http://108.181.173.121:6161/api/userRegistration/get'),
-        headers: {
-          'Authorization': 'Bearer $token',
-          'Content-Type': 'application/json',
-        },
-      );
-
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-        if (data is List) {
-          return data.firstWhere(
-            (user) => user['email'] == email,
-            orElse: () => null,
-          );
-        }
+      final errorData = jsonDecode(response.body);
+      if (errorData.containsKey('message')) {
+        _errorMessage = errorData['message'];
+      } else {
+        _errorMessage = "Authorization failed. Possible reasons:\n"
+            "- Insufficient account balance\n"
+            "- Account verification required\n"
+            "- Loan limit exceeded";
       }
     } catch (e) {
-      debugPrint("Error fetching user data: $e");
+      _errorMessage = "Forbidden: ${response.body}";
     }
-    return null;
+
+    debugPrint("403 Error Details: $_errorMessage");
+  }
+
+  void resetState() {
+    _loanSuccess = false;
+    _errorMessage = null;
+    notifyListeners();
   }
 }

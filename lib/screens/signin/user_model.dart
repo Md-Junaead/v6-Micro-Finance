@@ -1,5 +1,3 @@
-import 'package:v1_micro_finance/screens/deposit/balance_model.dart';
-
 class User {
   final int id;
   final String userid;
@@ -22,7 +20,6 @@ class User {
   final bool accountNonLocked;
   final bool accountNonExpired;
   final bool credentialsNonExpired;
-  Balance? balance;
 
   User({
     required this.id,
@@ -46,7 +43,6 @@ class User {
     required this.accountNonLocked,
     required this.accountNonExpired,
     required this.credentialsNonExpired,
-    this.balance,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -74,8 +70,6 @@ class User {
       accountNonLocked: json['accountNonLocked'],
       accountNonExpired: json['accountNonExpired'],
       credentialsNonExpired: json['credentialsNonExpired'],
-      balance:
-          json["balance"] != null ? Balance.fromJson(json["balance"]) : null,
     );
   }
 
@@ -102,7 +96,6 @@ class User {
       'accountNonLocked': accountNonLocked,
       'accountNonExpired': accountNonExpired,
       'credentialsNonExpired': credentialsNonExpired,
-      "balance": balance?.toJson(),
     };
   }
 }
