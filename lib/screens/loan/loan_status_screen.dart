@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:v1_micro_finance/configs/widgets/comon_appbar.dart';
 import 'package:v1_micro_finance/screens/loan/loan_card.dart';
 import 'package:v1_micro_finance/screens/loan/loan_list_viewmodel.dart';
 
@@ -23,10 +24,7 @@ class _LoanStatusScreenState extends State<LoanStatusScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Loan Status'),
-        elevation: 4,
-      ),
+      appBar: CommonAppBar(title: "Loan Status"),
       body: Consumer<LoanListViewModel>(
         builder: (context, model, _) {
           // Loading state

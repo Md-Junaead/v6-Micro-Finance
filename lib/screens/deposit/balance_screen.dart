@@ -1,6 +1,7 @@
 // balance_screen.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:v1_micro_finance/configs/widgets/comon_appbar.dart';
 import 'package:v1_micro_finance/screens/deposit/balance_card.dart';
 import 'package:v1_micro_finance/screens/deposit/balance_model.dart';
 import 'package:v1_micro_finance/screens/deposit/balance_view_model.dart';
@@ -37,10 +38,7 @@ class _BalanceScreenState extends State<BalanceScreen> {
     final balanceViewModel = Provider.of<BalanceViewModel>(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Balance Overview'),
-        centerTitle: true,
-      ),
+      appBar: CommonAppBar(title: "Balance Overview"),
       body: _buildBody(authViewModel, balanceViewModel),
     );
   }

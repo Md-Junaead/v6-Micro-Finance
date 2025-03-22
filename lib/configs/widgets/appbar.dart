@@ -1,8 +1,10 @@
-// appbar.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:animate_do/animate_do.dart';
-import 'package:v1_micro_finance/configs/viewmodels/reg_view_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:v1_micro_finance/screens/signin/auth_view_model.dart';
+import 'package:v1_micro_finance/screens/deposit/balance_view_model.dart';
+import 'package:v1_micro_finance/screens/deposit/balance_model.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({super.key});
@@ -12,7 +14,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final vm = Provider.of<UserRegistrationViewModel>(context);
+    final authVm = Provider.of<AuthViewModel>(context);
 
     return Stack(
       children: [
@@ -21,21 +23,17 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           top: 30,
           left: 90,
           right: 30,
-          bottom: 25,
+          bottom: 12,
           child: Row(
             children: [
-              // Profile Icon
-              CircleAvatar(
+              const CircleAvatar(
                 backgroundColor: Colors.white,
                 child: Icon(Icons.person, size: 30, color: Color(0xFF06426D)),
               ),
               const SizedBox(width: 12),
-              // _UserInfo(
-              //   username: vm.user?.username ?? 'Loading...',
-              //   balance: vm.user?.balance.toStringAsFixed(2) ?? '0.00',
-              //   isBalanceVisible: vm.isBalanceVisible,
-              //   onCheckBalance: vm.fetchBalance,
-              // ),
+              _UserInfo(
+                name: authVm.user?.name ?? 'Loading...',
+              ),
             ],
           ),
         ),
@@ -62,48 +60,75 @@ class _AppBarBackground extends StatelessWidget {
   }
 }
 
-class _UserInfo extends StatelessWidget {
-  final String username;
-  final String balance;
-  final bool isBalanceVisible;
-  final VoidCallback onCheckBalance;
+class _UserInfo extends StatefulWidget {
+  final String name;
 
   const _UserInfo({
-    required this.username,
-    required this.balance,
-    required this.isBalanceVisible,
-    required this.onCheckBalance,
+    required this.name,
   });
 
   @override
+  _UserInfoState createState() => _UserInfoState();
+}
+
+class _UserInfoState extends State<_UserInfo> {
+  bool _isBalanceVisible = false;
+
+  Future<void> _fetchAndToggleBalance() async {
+    if (!_isBalanceVisible) {
+      final prefs = await SharedPreferences.getInstance();
+      final userId = prefs.getInt('userId');
+      if (userId != null) {
+        final balanceVm = Provider.of<BalanceViewModel>(context, listen: false);
+        await balanceVm.fetchBalances(userId);
+      }
+    }
+    setState(() {
+      _isBalanceVisible = !_isBalanceVisible;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final balanceVm = Provider.of<BalanceViewModel>(context);
+    final List<Balance> sortedBalances = List.from(balanceVm.balances)
+      ..sort((a, b) => b.date.compareTo(a.date));
+    final latestBalance =
+        sortedBalances.isNotEmpty ? sortedBalances.first : null;
+    final balanceValue = latestBalance?.dipositB.toStringAsFixed(2) ?? '0.00';
+
     return Expanded(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(username,
+          Text(widget.name,
               style: const TextStyle(color: Colors.white, fontSize: 18)),
           const SizedBox(height: 5),
           GestureDetector(
-            onTap: onCheckBalance,
+            onTap: _fetchAndToggleBalance,
             child: Bounce(
-              duration: const Duration(milliseconds: 300),
+              duration: const Duration(milliseconds: 01),
               child: AnimatedContainer(
-                duration: const Duration(milliseconds: 200),
+                duration: const Duration(milliseconds: 01),
                 padding:
                     const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                 decoration: BoxDecoration(
-                    color: const Color(0xFFE1E8ED),
-                    borderRadius: BorderRadius.circular(15)),
+                  color: const Color(0xFFE1E8ED),
+                  borderRadius: BorderRadius.circular(15),
+                ),
                 child: AnimatedCrossFade(
-                  firstChild: const Text("Check Balance",
-                      style: TextStyle(fontWeight: FontWeight.bold)),
-                  secondChild: Text(isBalanceVisible ? "\$$balance" : "",
-                      style: const TextStyle(fontWeight: FontWeight.bold)),
-                  crossFadeState: isBalanceVisible
+                  firstChild: const Text(
+                    "Check Balance",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  secondChild: Text(
+                    _isBalanceVisible ? "\$$balanceValue" : "",
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  crossFadeState: _isBalanceVisible
                       ? CrossFadeState.showSecond
                       : CrossFadeState.showFirst,
-                  duration: const Duration(milliseconds: 200),
+                  duration: const Duration(milliseconds: 01),
                 ),
               ),
             ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:v1_micro_finance/configs/widgets/comon_appbar.dart';
 import 'package:v1_micro_finance/screens/deposit/balance_view_model.dart';
 import 'package:v1_micro_finance/screens/signin/auth_view_model.dart';
 
@@ -14,7 +15,7 @@ class BalanceSaveScreen extends StatelessWidget {
     final balanceViewModel = Provider.of<BalanceViewModel>(context);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Add Balance')),
+      appBar: CommonAppBar(title: "Add Balance"),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -32,6 +33,10 @@ class BalanceSaveScreen extends StatelessWidget {
               const CircularProgressIndicator()
             else
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor:
+                      Color(0xFF06426D), // Set background color to blue
+                ),
                 onPressed: () async {
                   final amount = int.tryParse(_amountController.text);
                   final user = authViewModel.user;
@@ -51,7 +56,10 @@ class BalanceSaveScreen extends StatelessWidget {
                     }
                   }
                 },
-                child: const Text('Submit'),
+                child: const Text(
+                  'Submit',
+                  style: TextStyle(color: Colors.white),
+                ), // Set text color to white
               ),
             if (balanceViewModel.errorMessage != null)
               Padding(

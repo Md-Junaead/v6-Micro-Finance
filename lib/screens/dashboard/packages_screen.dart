@@ -218,55 +218,6 @@ class PackagesScreen extends StatelessWidget {
                 ),
               ),
             ),
-
-            // Package 5
-            GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, RoutesName.userProfile);
-              },
-              child: Container(
-                padding: EdgeInsets.all(16.0),
-                margin: EdgeInsets.only(bottom: 16.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: Colors.red.shade50,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.shade300,
-                      spreadRadius: 1,
-                      blurRadius: 4,
-                    ),
-                  ],
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'User Profile',
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.red.shade800,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    SizedBox(height: 8),
-                    Text(
-                      '• Daily Revenue: 0.055% of Current Balance',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    Text(
-                      '• Minimum Deposit: \$5,001 to Unlimited',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    Text(
-                      '• Revenue Withdrawal: Daily',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                  ],
-                ),
-              ),
-            ),
           ],
         ),
       ),

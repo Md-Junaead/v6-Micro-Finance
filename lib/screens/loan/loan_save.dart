@@ -81,6 +81,10 @@ class _LoanSaveScreenState extends State<LoanSaveScreen> {
                 const CircularProgressIndicator()
               else
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(
+                        0xFF06426D), // Set button background color to blue
+                  ),
                   onPressed: () async {
                     if (_formKey.currentState!.validate() &&
                         _selectedTenure != null) {
@@ -117,7 +121,10 @@ class _LoanSaveScreenState extends State<LoanSaveScreen> {
                       );
                     }
                   },
-                  child: const Text("Submit Application"),
+                  child: const Text(
+                    "Submit Application",
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
             ],
           ),
