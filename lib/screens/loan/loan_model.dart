@@ -32,12 +32,10 @@ class Loan {
       // print("weeklypay Type: ${json["weeklypay"]?.runtimeType}");
       // print("totalpay Type: ${json["totalpay"]?.runtimeType}");
       // print("tenure Type: ${json["tenure"]?.runtimeType}");
-
       return Loan(
-        id: json["id"],
-        eligeblebalancey: (json["eligeblebalancey"] as num?)
-            ?.toDouble(), // Convert num to double
-        loanamuont: json["loanamuont"], // This might need conversion
+        id: json["id"] as int?,
+        eligeblebalancey: _toDouble(json["eligeblebalancey"]),
+        loanamuont: _toInt(json["loanamuont"]),
         weeklypay: json["weeklypay"]?.toDouble(),
         totalpay: json["totalpay"]?.toDouble(),
         tenure: json["tenure"],
@@ -55,6 +53,13 @@ class Loan {
       return Loan(); // Return an empty object to avoid crashes
     }
   }
+  static List<Loan> listFromJson(List<dynamic> jsonList) {
+    return jsonList.map((json) => Loan.fromJson(json)).toList();
+  }
+
+  static double? _toDouble(dynamic value) =>
+      value is num ? value.toDouble() : null;
+  static int? _toInt(dynamic value) => value is num ? value.toInt() : null;
 
   Map<String, dynamic> toJson() => {
         "id": id,
