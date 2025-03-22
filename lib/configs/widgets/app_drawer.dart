@@ -60,23 +60,31 @@ class AppDrawer extends StatelessWidget {
             SizedBox(height: 20),
 
             // Menu Section
-            _buildMenuItem(context, Icons.account_balance_wallet, 'Add Money',
+            _buildMenuItem(context, Icons.account_balance_wallet, 'Deposit',
                 () {
-              Navigator.pushNamed(context,
-                  RoutesName.depositScreen); // Replace with actual navigation
+              Navigator.pushNamed(
+                  context,
+                  RoutesName
+                      .balanceSaveScreen); // Replace with actual navigation
             }),
             _buildMenuItem(context, Icons.info, 'Package Info', () {
               Navigator.pushNamed(context,
                   RoutesName.packagesScreen); // Replace with actual navigation
             }),
             _buildMenuItem(context, Icons.receipt, 'Statement', () {
-              Navigator.pushNamed(
-                  context, '/statement'); // Replace with actual navigation
+              Navigator.pushNamed(context,
+                  RoutesName.statementScreen); // Replace with actual navigation
             }),
             _buildSubMenu(context, Icons.arrow_drop_down, 'Withdraw', [
-              _buildMenuItem(context, Icons.add, 'New Request', () {
+              _buildMenuItem(context, Icons.add, 'Profit Withdraw', () {
                 Navigator.pushNamed(context,
-                    RoutesName.withDrawType); // Replace with actual navigation
+                    RoutesName.profitGateway); // Replace with actual navigation
+              }),
+              _buildMenuItem(context, Icons.add, 'Deposit Withdraw', () {
+                Navigator.pushNamed(
+                    context,
+                    RoutesName
+                        .depositGateway); // Replace with actual navigation
               }),
               _buildMenuItem(context, Icons.query_stats, 'Status', () {
                 Navigator.pushNamed(context,

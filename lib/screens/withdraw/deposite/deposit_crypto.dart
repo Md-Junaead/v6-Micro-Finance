@@ -195,10 +195,13 @@ class _DepositCryptoState extends State<DepositCrypto> {
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
-                        backgroundColor: Colors.grey,
+                        backgroundColor: Color(0xFF06426D),
                         // Button color
                       ),
-                      child: Text('Submit'),
+                      child: Text(
+                        'Submit',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                   ],
                 ),
