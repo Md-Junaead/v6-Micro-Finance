@@ -1,8 +1,11 @@
-// Work well to get single updated Balance for unique user
+// balance_screen.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:v1_micro_finance/screens/deposit/balance_card.dart';
+import 'package:v1_micro_finance/screens/deposit/balance_model.dart';
 import 'package:v1_micro_finance/screens/deposit/balance_view_model.dart';
-import 'balance_model.dart';
+import 'package:v1_micro_finance/screens/signin/auth_view_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BalanceScreen extends StatefulWidget {
   const BalanceScreen({super.key});
@@ -15,207 +18,58 @@ class _BalanceScreenState extends State<BalanceScreen> {
   @override
   void initState() {
     super.initState();
-    // Fetch balances when screen initializes
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<BalanceViewModel>(context, listen: false).fetchBalances();
-    });
+    WidgetsBinding.instance.addPostFrameCallback((_) => _loadData());
+  }
+
+  Future<void> _loadData() async {
+    final prefs = await SharedPreferences.getInstance();
+    final userId = prefs.getInt('userId');
+
+    if (userId != null) {
+      await Provider.of<BalanceViewModel>(context, listen: false)
+          .fetchBalances(userId);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final authViewModel = Provider.of<AuthViewModel>(context);
     final balanceViewModel = Provider.of<BalanceViewModel>(context);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Balance Overview'),
+        centerTitle: true,
       ),
-      body: _buildBody(balanceViewModel),
+      body: _buildBody(authViewModel, balanceViewModel),
     );
   }
 
-  Widget _buildBody(BalanceViewModel viewModel) {
-    if (viewModel.isLoading) {
+  Widget _buildBody(AuthViewModel auth, BalanceViewModel balanceVm) {
+    if (balanceVm.isLoading) {
       return const Center(child: CircularProgressIndicator());
     }
 
-    if (viewModel.errorMessage != null) {
-      return Center(
-        child: Text(
-          viewModel.errorMessage!,
-          style: const TextStyle(color: Colors.red),
-        ),
-      );
+    if (balanceVm.errorMessage != null) {
+      return Center(child: Text('Error: ${balanceVm.errorMessage}'));
     }
 
-    if (viewModel.balances.isEmpty) {
-      return const Center(child: Text('No balance history found'));
+    if (balanceVm.balances.isEmpty) {
+      return const Center(child: Text('No balance records found'));
     }
 
-    // Changed: Instead of a ListView.builder, display only the last card
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
-      child: _buildBalanceCard(viewModel
-          .balances.last), // Changed to show only the last balance card
-    );
-  }
+    // TASK 1 UPDATE START: Sort balances by date descending and get latest
+    final sortedBalances = List<Balance>.from(balanceVm.balances)
+      ..sort((a, b) => b.date.compareTo(a.date));
+    final latestBalance = sortedBalances.first;
+    // TASK 1 UPDATE END
 
-  Widget _buildBalanceCard(Balance balance) {
-    return Card(
-      elevation: 4,
-      margin: const EdgeInsets.only(bottom: 16),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              balance.userRegistration.name,
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 12),
-            _buildInfoRow('Deposit Balance', '${balance.dipositB} BDT'),
-            _buildInfoRow('Active Package', balance.packages),
-            _buildInfoRow('Current Profit', '${balance.profitB}%'),
-          ],
-        ),
-      ),
-    );
-  }
+    final user = auth.user;
 
-  Widget _buildInfoRow(String label, String value) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            label,
-            style: const TextStyle(color: Colors.grey),
-          ),
-          Text(
-            value,
-            style: const TextStyle(
-              fontWeight: FontWeight.w500,
-              color: Colors.blue,
-            ),
-          ),
-        ],
-      ),
+      padding: const EdgeInsets.all(16.0),
+      child: BalanceCard(
+          user: user, balance: latestBalance), // Updated to use latestBalance
     );
   }
 }
-
-// Work fine to get all deposit history for all user
-// import 'package:flutter/material.dart';
-// import 'package:provider/provider.dart';
-// import 'package:v1_micro_finance/screens/deposit/balance_view_model.dart';
-// import 'balance_model.dart';
-
-// class BalanceScreen extends StatefulWidget {
-//   const BalanceScreen({super.key});
-
-//   @override
-//   State<BalanceScreen> createState() => _BalanceScreenState();
-// }
-
-// class _BalanceScreenState extends State<BalanceScreen> {
-//   @override
-//   void initState() {
-//     super.initState();
-//     // Fetch balances when screen initializes
-//     WidgetsBinding.instance.addPostFrameCallback((_) {
-//       Provider.of<BalanceViewModel>(context, listen: false).fetchBalances();
-//     });
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final balanceViewModel = Provider.of<BalanceViewModel>(context);
-
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('Balance Overview'),
-//       ),
-//       body: _buildBody(balanceViewModel),
-//     );
-//   }
-
-//   Widget _buildBody(BalanceViewModel viewModel) {
-//     if (viewModel.isLoading) {
-//       return const Center(child: CircularProgressIndicator());
-//     }
-
-//     if (viewModel.errorMessage != null) {
-//       return Center(
-//         child: Text(
-//           viewModel.errorMessage!,
-//           style: const TextStyle(color: Colors.red),
-//         ),
-//       );
-//     }
-
-//     if (viewModel.balances.isEmpty) {
-//       return const Center(child: Text('No balance history found'));
-//     }
-
-//     return ListView.builder(
-//       padding: const EdgeInsets.all(16),
-//       itemCount: viewModel.balances.length,
-//       itemBuilder: (context, index) {
-//         final balance = viewModel.balances[index];
-//         return _buildBalanceCard(balance);
-//       },
-//     );
-//   }
-
-//   Widget _buildBalanceCard(Balance balance) {
-//     return Card(
-//       elevation: 4,
-//       margin: const EdgeInsets.only(bottom: 16),
-//       child: Padding(
-//         padding: const EdgeInsets.all(16),
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             Text(
-//               balance.userRegistration.name,
-//               style: const TextStyle(
-//                 fontSize: 18,
-//                 fontWeight: FontWeight.bold,
-//               ),
-//             ),
-//             const SizedBox(height: 12),
-//             _buildInfoRow('Deposit Balance', '${balance.dipositB} BDT'),
-//             _buildInfoRow('Active Package', balance.packages),
-//             _buildInfoRow('Current Profit', '${balance.profitB}%'),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-
-//   Widget _buildInfoRow(String label, String value) {
-//     return Padding(
-//       padding: const EdgeInsets.symmetric(vertical: 4),
-//       child: Row(
-//         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//         children: [
-//           Text(
-//             label,
-//             style: const TextStyle(color: Colors.grey),
-//           ),
-//           Text(
-//             value,
-//             style: const TextStyle(
-//               fontWeight: FontWeight.w500,
-//               color: Colors.blue,
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
