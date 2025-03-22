@@ -60,12 +60,12 @@ class BalanceViewModel with ChangeNotifier {
   }
 
   /// Fetches the user's balance history from the API.
-  Future<void> fetchBalances() async {
+  Future<void> fetchBalances(int userId) async {
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
 
-    const url = 'http://108.181.173.121:6161/api/Balance/get';
+    final url = 'http://108.181.173.121:6161/api/Balance/getByUser/$userId';
 
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -92,7 +92,13 @@ class BalanceViewModel with ChangeNotifier {
       if (response.statusCode == 200) {
         final List<dynamic> responseData = jsonDecode(response.body);
         _balances = responseData.map((json) => Balance.fromJson(json)).toList();
+
+        // TASK 1 UPDATE: Sort balances by date descending during fetch
+        _balances.sort((a, b) => b.date.compareTo(a.date));
+
         _errorMessage = null;
+
+        debugPrint('Sorted balances: ${_balances.map((b) => b.date)}');
       } else {
         _errorMessage = 'Failed to load balances: ${response.statusCode}';
       }
@@ -105,62 +111,3 @@ class BalanceViewModel with ChangeNotifier {
     }
   }
 }
-
-// This viewmodel is working to sent Balance to server
-// import 'dart:convert';
-// import 'package:flutter/material.dart';
-// import 'package:http/http.dart' as http;
-// import 'package:shared_preferences/shared_preferences.dart';
-
-// class BalanceViewModel with ChangeNotifier {
-//   bool _isLoading = false;
-//   String? _errorMessage;
-
-//   bool get isLoading => _isLoading;
-//   String? get errorMessage => _errorMessage;
-
-//   Future<void> saveBalance(int addBalance, int userId) async {
-//     _isLoading = true;
-//     _errorMessage = null;
-//     notifyListeners();
-
-//     const url = 'http://108.181.173.121:6161/api/Balance/save';
-
-//     try {
-//       final prefs = await SharedPreferences.getInstance();
-//       final token = prefs.getString('authToken');
-
-//       if (token == null) {
-//         _errorMessage = 'Authentication required';
-//         _isLoading = false;
-//         notifyListeners();
-//         return;
-//       }
-
-//       final response = await http.post(
-//         Uri.parse(url),
-//         headers: {
-//           'Content-Type': 'application/json',
-//           'Authorization': 'Bearer $token',
-//         },
-//         body: jsonEncode({
-//           'addBalance': addBalance,
-//           'userRegistration': {'id': userId}
-//         }),
-//       );
-
-//       debugPrint('Status: ${response.statusCode}, Body: ${response.body}');
-
-//       if (response.statusCode >= 200 && response.statusCode < 300) {
-//         _errorMessage = null;
-//       } else {
-//         _errorMessage = 'Failed to save balance: ${response.body}';
-//       }
-//     } catch (e) {
-//       _errorMessage = 'Connection error: $e';
-//     } finally {
-//       _isLoading = false;
-//       notifyListeners();
-//     }
-//   }
-// }
