@@ -31,7 +31,7 @@ class NomineeViewModel with ChangeNotifier {
     try {
       // Call the API to get nominees (ideally the API returns only the user's nominee)
       final response = await http.get(
-        Uri.parse('http://108.181.173.121:6161/api/nominee/get?userId=$userId'),
+        Uri.parse('http://108.181.173.121:6160/api/nominee/get?userId=$userId'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
@@ -84,7 +84,7 @@ class NomineeViewModel with ChangeNotifier {
 
     try {
       final response = await http.post(
-        Uri.parse('http://108.181.173.121:6161/api/nominee/save'),
+        Uri.parse('http://108.181.173.121:6160/api/nominee/save'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',

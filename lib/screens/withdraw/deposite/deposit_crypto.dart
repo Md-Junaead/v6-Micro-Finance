@@ -7,6 +7,7 @@ class DepositCrypto extends StatefulWidget {
   const DepositCrypto({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _DepositCryptoState createState() => _DepositCryptoState();
 }
 
