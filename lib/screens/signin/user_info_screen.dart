@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:v1_micro_finance/configs/widgets/comon_appbar.dart';
 import 'package:v1_micro_finance/screens/bottom/home_screen.dart';
+import 'package:v1_micro_finance/screens/profile/edit_profile_screen.dart';
 import 'package:v1_micro_finance/screens/signin/auth_view_model.dart'; // Import your Edit screen here
 
 class UserInfoScreen extends StatelessWidget {
@@ -55,7 +56,7 @@ class UserInfoScreen extends StatelessWidget {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) =>
-                                        HomeScreen(), // The Edit screen
+                                        EditProfileScreen(), // The Edit screen
                                   ),
                                 );
                               },
