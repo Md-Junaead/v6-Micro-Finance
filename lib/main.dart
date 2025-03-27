@@ -7,7 +7,6 @@ import 'package:v1_micro_finance/screens/deposit/balance_view_model.dart';
 import 'package:v1_micro_finance/screens/loan/loan_list_viewmodel.dart';
 import 'package:v1_micro_finance/screens/loan/loan_view_model.dart';
 import 'package:v1_micro_finance/screens/nominee/nominee_viewmodel.dart';
-import 'package:v1_micro_finance/screens/profile/edit_profile_screen.dart';
 import 'package:v1_micro_finance/screens/signin/auth_view_model.dart';
 
 void main() {
@@ -46,7 +45,7 @@ class MicroFinance extends StatelessWidget {
         ),
       ),
       // This is the initial route indicating from where our app will start
-      initialRoute: RoutesName.editProfileScreen,
+      initialRoute: RoutesName.splashScreen,
       onGenerateRoute: Routes.generateRoute, // Route generator for navigation
     );
   }
