@@ -122,4 +122,74 @@ class NomineeViewModel with ChangeNotifier {
     _isLoading = false;
     notifyListeners();
   }
+
+  // Add to NomineeViewModel class
+  Future<bool> updateNominee({
+    required int nomineeId,
+    String? name,
+    String? email,
+    String? cellNo,
+    DateTime? dob,
+    String? relationship,
+  }) async {
+    _isLoading = true;
+    notifyListeners();
+
+    debugPrint("Updating nominee ID: $nomineeId");
+    debugPrint(
+        "New values: name=$name, email=$email, cellNo=$cellNo, dob=$dob, relationship=$relationship");
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('authToken');
+
+    if (token == null) {
+      debugPrint("Auth token not found.");
+      _handleError('Not authenticated');
+      return false;
+    }
+
+    try {
+      // Construct the request body dynamically with only non-null fields
+      Map<String, dynamic> requestBody = {};
+
+      if (name != null) requestBody['name'] = name;
+      if (email != null) requestBody['email'] = email;
+      if (cellNo != null) requestBody['cellNo'] = cellNo;
+      if (dob != null) requestBody['dob'] = dob.toIso8601String();
+      if (relationship != null) requestBody['relationship'] = relationship;
+
+      debugPrint("Request body: $requestBody");
+
+      final response = await http.put(
+        Uri.parse(
+            'http://75.119.134.82:6160/api/nominee/updateNominee/$nomineeId'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode(requestBody),
+      );
+
+      debugPrint("Update response status: ${response.statusCode}");
+      debugPrint("Update response body: ${response.body}");
+
+      if (response.statusCode == 200) {
+        // Refresh nominee list
+        if (_nominees.isNotEmpty) {
+          await fetchNominees(_nominees.first.user.id);
+        }
+        return true;
+      } else {
+        _handleError('Update failed: ${response.body}');
+        return false;
+      }
+    } catch (e) {
+      debugPrint("Update error: $e");
+      _handleError('Update error: $e');
+      return false;
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
 }
