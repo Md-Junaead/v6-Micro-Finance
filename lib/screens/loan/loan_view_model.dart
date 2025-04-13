@@ -46,7 +46,7 @@ class LoanViewModel with ChangeNotifier {
       debugPrint("Request Body: ${jsonEncode(requestBody)}");
 
       final response = await http.post(
-        Uri.parse("http://108.181.173.121:6160/api/loan/save"),
+        Uri.parse("http://75.119.134.82:6160/api/loan/save"),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',

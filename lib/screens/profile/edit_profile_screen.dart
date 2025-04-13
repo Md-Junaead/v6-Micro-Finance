@@ -1,14 +1,13 @@
-// Edit Profile Screen
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import 'package:v1_micro_finance/configs/widgets/comon_appbar.dart';
 import 'package:v1_micro_finance/screens/signin/auth_view_model.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _EditProfileScreenState createState() => _EditProfileScreenState();
 }
 
@@ -24,15 +23,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     super.initState();
     final user = Provider.of<AuthViewModel>(context, listen: false).user;
 
-    // Initialize controllers with current user data
+    // Initialize text controllers with existing user data
     _phoneController = TextEditingController(text: user?.phoneNo ?? '');
     _addressController = TextEditingController(text: user?.address ?? '');
 
-    // Handle date initialization
+    // Parse and set date of birth
     if (user?.dob != null) {
       try {
-        _selectedDate = DateFormat('yyyy-MM-dd').parse(user!.dob!);
-        _dobController = TextEditingController(text: user.dob);
+        _selectedDate = DateTime.parse(user!.dob!);
+        _dobController = TextEditingController(
+            text: user.dob!.split('T').first); // Match LoanCard date format
       } catch (e) {
         debugPrint("Error parsing date: $e");
         _selectedDate = null;
@@ -43,6 +43,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     }
   }
 
+  // Show Date Picker and format selected date as yyyy-MM-dd
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -59,6 +60,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     }
   }
 
+  // Submit form data to update user profile
   void _submitForm() async {
     if (!_formKey.currentState!.validate()) return;
 
@@ -82,7 +84,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         user.country,
       );
 
-      // If successful, navigate back
+      // Navigate back if update is successful
       if (mounted) Navigator.pop(context);
     } catch (e) {
       if (mounted) {
@@ -107,71 +109,83 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Edit Profile"),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ),
+      appBar: const CommonAppBar(title: "Edit Profile"),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              TextFormField(
-                controller: _phoneController,
-                decoration: const InputDecoration(
-                  labelText: 'Phone Number',
-                  prefixIcon: Icon(Icons.phone),
-                ),
-                keyboardType: TextInputType.phone,
-              ),
-              const SizedBox(height: 16),
-              TextFormField(
-                controller: _addressController,
-                decoration: const InputDecoration(
-                  labelText: 'Address',
-                  prefixIcon: Icon(Icons.home),
-                ),
-                maxLines: 3,
-              ),
-              const SizedBox(height: 16),
-              TextFormField(
-                controller: _dobController,
-                decoration: const InputDecoration(
-                  labelText: 'Date of Birth',
-                  prefixIcon: Icon(Icons.calendar_today),
-                ),
-                readOnly: true,
-                onTap: () => _selectDate(context),
-              ),
-              const SizedBox(height: 32),
-              Consumer<AuthViewModel>(
-                builder: (context, authViewModel, _) {
-                  return ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF06426D),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 40, vertical: 12),
+        child: Card(
+          elevation: 4,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  // Phone Number Field
+                  TextFormField(
+                    controller: _phoneController,
+                    decoration: const InputDecoration(
+                      labelText: 'Phone Number',
+                      prefixIcon: Icon(Icons.phone),
                     ),
-                    onPressed: authViewModel.isLoading ? null : _submitForm,
-                    child: authViewModel.isLoading
-                        ? const SizedBox(
-                            width: 24,
-                            height: 24,
-                            child: CircularProgressIndicator(
-                              color: Colors.white,
-                              strokeWidth: 2,
-                            ),
-                          )
-                        : const Text('SAVE CHANGES',
-                            style: TextStyle(fontSize: 16)),
-                  );
-                },
+                    keyboardType: TextInputType.phone,
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Address Field
+                  TextFormField(
+                    controller: _addressController,
+                    decoration: const InputDecoration(
+                      labelText: 'Address',
+                      prefixIcon: Icon(Icons.home),
+                    ),
+                    maxLines: 1,
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Date of Birth Field (Read-only)
+                  TextFormField(
+                    controller: _dobController,
+                    decoration: const InputDecoration(
+                      labelText: 'Date of Birth',
+                      prefixIcon: Icon(Icons.calendar_today),
+                    ),
+                    readOnly: true,
+                    onTap: () => _selectDate(context),
+                  ),
+                  const SizedBox(height: 32),
+
+                  // Save Button with Loading Indicator
+                  Consumer<AuthViewModel>(
+                    builder: (context, authViewModel, _) {
+                      return ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF06426D),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 40, vertical: 12),
+                        ),
+                        onPressed: authViewModel.isLoading ? null : _submitForm,
+                        child: authViewModel.isLoading
+                            ? const SizedBox(
+                                width: 24,
+                                height: 24,
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                  strokeWidth: 2,
+                                ),
+                              )
+                            : const Text(
+                                'SAVE CHANGES',
+                                style: TextStyle(
+                                    fontSize: 16, color: Colors.white),
+                              ),
+                      );
+                    },
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),

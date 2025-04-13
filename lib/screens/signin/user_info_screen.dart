@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:v1_micro_finance/configs/widgets/comon_appbar.dart';
-import 'package:v1_micro_finance/screens/bottom/home_screen.dart';
 import 'package:v1_micro_finance/screens/profile/edit_profile_screen.dart';
 import 'package:v1_micro_finance/screens/signin/auth_view_model.dart'; // Import your Edit screen here
 
@@ -39,12 +38,19 @@ class UserInfoScreen extends StatelessWidget {
                             Icons.home, "Address", user.address ?? 'N/A'),
                         _buildUserInfoRow(
                             Icons.location_on, "Country", user.country),
-                        _buildUserInfoRow(Icons.calendar_today, "Date of Birth",
-                            user.dob ?? 'N/A'),
+
+                        // ✅ Updated: format Date of Birth to YYYY-MM-DD
+                        _buildUserInfoRow(
+                          Icons.calendar_today,
+                          "Date of Birth",
+                          user.dob?.split('T').first ?? 'N/A',
+                        ),
+
                         _buildUserInfoRow(Icons.card_membership, "NID Number",
                             user.nidnumber ?? 'N/A'),
                         _buildUserInfoRow(Icons.account_box, "Passport",
                             user.passport ?? 'N/A'),
+
                         // Edit Button at the bottom
                         Padding(
                           padding: const EdgeInsets.only(top: 16.0),
@@ -109,51 +115,3 @@ class UserInfoScreen extends StatelessWidget {
     );
   }
 }
-
-// import 'package:flutter/material.dart';
-// import 'package:provider/provider.dart';
-// import 'package:v1_micro_finance/configs/widgets/comon_appbar.dart';
-// import 'package:v1_micro_finance/screens/signin/auth_view_model.dart';
-
-// class UserInfoScreen extends StatelessWidget {
-//   const UserInfoScreen({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     // Fetch the user data from AuthViewModel
-//     final user = Provider.of<AuthViewModel>(context).user;
-
-//     // If user data is not available, show a loading indicator
-//     return Scaffold(
-//       appBar: CommonAppBar(title: "User Info"),
-//       body: user == null
-//           ? Center(child: CircularProgressIndicator())
-//           : Padding(
-//               padding: const EdgeInsets.all(16.0),
-//               child: SingleChildScrollView(
-//                 child: Column(
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   children: [
-//                     // Displaying all user information here
-//                     Text("Name: ${user.name}", style: TextStyle(fontSize: 18)),
-//                     Text("Email: ${user.email}",
-//                         style: TextStyle(fontSize: 18)),
-//                     Text("Phone: ${user.phoneNo ?? 'N/A'}",
-//                         style: TextStyle(fontSize: 18)),
-//                     Text("Address: ${user.address ?? 'N/A'}",
-//                         style: TextStyle(fontSize: 18)),
-//                     Text("Country: ${user.country}",
-//                         style: TextStyle(fontSize: 18)),
-//                     Text("Date of Birth: ${user.dob ?? 'N/A'}",
-//                         style: TextStyle(fontSize: 18)),
-//                     Text("NID Number: ${user.nidnumber ?? 'N/A'}",
-//                         style: TextStyle(fontSize: 18)),
-//                     Text("Passport: ${user.passport ?? 'N/A'}",
-//                         style: TextStyle(fontSize: 18)),
-//                   ],
-//                 ),
-//               ),
-//             ),
-//     );
-//   }
-// }

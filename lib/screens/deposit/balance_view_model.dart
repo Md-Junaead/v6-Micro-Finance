@@ -19,7 +19,7 @@ class BalanceViewModel with ChangeNotifier {
     _errorMessage = null;
     notifyListeners();
 
-    const url = 'http://108.181.173.121:6160/api/Balance/save';
+    const url = 'http://75.119.134.82:6160/api/Balance/save';
 
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -65,7 +65,7 @@ class BalanceViewModel with ChangeNotifier {
     _errorMessage = null;
     notifyListeners();
 
-    final url = 'http://108.181.173.121:6160/api/Balance/getByUser/$userId';
+    final url = 'http://75.119.134.82:6160/api/Balance/getByUser/$userId';
 
     try {
       final prefs = await SharedPreferences.getInstance();

@@ -29,7 +29,7 @@ class LoanListViewModel with ChangeNotifier {
     }
 
     final url =
-        Uri.parse('http://108.181.173.121:6160/api/loan/getByUser/$userId');
+        Uri.parse('http://75.119.134.82:6160/api/loan/getByUser/$userId');
 
     try {
       final response = await http.get(
