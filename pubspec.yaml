@@ -54,6 +54,7 @@ flutter:
   # Assets declaration
   assets:
     - assets/images/
+    - assets/images/home/home_gif.gif
     - assets/splash/splash_screen.gif
     - assets/logos/
     - assets/icons/
