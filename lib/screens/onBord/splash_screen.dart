@@ -25,7 +25,7 @@
 //   Widget build(BuildContext context) {
 //     // Get the screen height
 //     double screenHeight = MediaQuery.of(context).size.height;
-//     double negativeTopMargin = screenHeight * 0.05; // -5% of screen height
+//     double negativeTopMargin = screenHeight * 0.01; // -5% of screen height
 
 //     return Scaffold(
 //       backgroundColor: Colors.white, // Set background color
@@ -63,40 +63,22 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void _navigateToHome() async {
-    await Future.delayed(Duration(seconds: 1653), () {
+    await Future.delayed(Duration(seconds: 3), () {
       Navigator.pushReplacementNamed(context, RoutesName.startedScreen);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    // Get the screen height
-    double screenHeight = MediaQuery.of(context).size.height;
-    double negativeTopMargin = screenHeight * 0.05; // -5% of screen height
-
     return Scaffold(
-      body: Stack(
-        children: [
-          // ✅ Background color at index -2
-          Container(
-            color: Colors.red,
-          ),
-
-          // ✅ Content placed above background color
-          Positioned.fill(
-            child: Transform.translate(
-              offset: Offset(0, -negativeTopMargin),
-              child: Center(
-                child: Image.asset(
-                  'assets/splash/splash_screen.gif',
-                  width: double.infinity,
-                  height: double.infinity,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-          ),
-        ],
+      // Removed backgroundColor, we don't need it anymore
+      body: Center(
+        child: Image.asset(
+          'assets/splash/splash_screen.gif',
+          width: double.infinity,
+          height: double.infinity,
+          fit: BoxFit.cover, // Makes the GIF full-screen and responsive
+        ),
       ),
     );
   }

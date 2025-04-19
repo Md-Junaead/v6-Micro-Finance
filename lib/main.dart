@@ -45,7 +45,7 @@ class MicroFinance extends StatelessWidget {
         ),
       ),
       // This is the initial route indicating from where our app will start
-      initialRoute: RoutesName.homeScreen,
+      initialRoute: RoutesName.splashScreen,
       onGenerateRoute: Routes.generateRoute, // Route generator for navigation
     );
   }
