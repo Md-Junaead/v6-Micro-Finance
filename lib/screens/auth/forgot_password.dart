@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:v1_micro_finance/configs/routes/routes_name.dart';
 import 'package:v1_micro_finance/configs/widgets/comon_appbar.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {
@@ -50,15 +51,29 @@ class ForgotPasswordScreen extends StatelessWidget {
             // Reset Password button
             ElevatedButton(
               onPressed: () {
-                // Handle reset password logic here
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('Password reset instructions sent!'),
-                  ),
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text('Password Reset'),
+                      content: Text(
+                          'Password reset instructions have been sent to your email.'),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pushNamed(
+                                context, RoutesName.loginScreen);
+                          },
+                          child: Text('OK'),
+                        ),
+                      ],
+                    );
+                  },
                 );
               },
               child: Text('Reset Password'),
             ),
+
             SizedBox(height: 16),
 
             // Back to Sign In link
