@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:v1_micro_finance/screens/withdraw/deposite/deposit_gateway.dart';
+import 'package:v1_micro_finance/screens/withdraw/deposite/deposit_withdraw_screen.dart';
 import 'package:v1_micro_finance/screens/withdraw/profit/profit_gateway.dart';
 import 'package:v1_micro_finance/configs/widgets/comon_appbar.dart';
 
@@ -55,7 +55,7 @@ class _WithDrawTypeState extends State<WithDrawType> {
                   context,
                   MaterialPageRoute(
                     builder: (context) =>
-                        DepositGateway(), // Assume this screen exists
+                        DepositWithdrawScreen(), // Assume this screen exists
                   ),
                 );
               },

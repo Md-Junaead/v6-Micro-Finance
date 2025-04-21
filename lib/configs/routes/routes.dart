@@ -30,9 +30,7 @@ import 'package:v1_micro_finance/screens/bottom/statement_screen.dart';
 import 'package:v1_micro_finance/screens/auth/verification.dart';
 import 'package:v1_micro_finance/screens/onBord/on_board_screen.dart';
 import 'package:v1_micro_finance/screens/signin/user_info_screen.dart';
-import 'package:v1_micro_finance/screens/withdraw/deposite/deposit_bank.dart';
-import 'package:v1_micro_finance/screens/withdraw/deposite/deposit_gateway.dart';
-import 'package:v1_micro_finance/screens/withdraw/deposite/deposit_crypto.dart';
+import 'package:v1_micro_finance/screens/withdraw/deposite/deposit_withdraw_screen.dart';
 import 'package:v1_micro_finance/screens/withdraw/loan/loan_bank.dart';
 import 'package:v1_micro_finance/screens/withdraw/loan/loan_crypto.dart';
 import 'package:v1_micro_finance/screens/withdraw/loan/loan_gateway.dart';
@@ -173,19 +171,6 @@ class Routes {
         return MaterialPageRoute(
             builder: (BuildContext context) => PayEmiScreen());
 
-//Deposit Payment Routes Name
-      case RoutesName.depositGateway:
-        return MaterialPageRoute(
-            builder: (BuildContext context) => DepositGateway());
-
-      case RoutesName.depositBank:
-        return MaterialPageRoute(
-            builder: (BuildContext context) => DepositBank());
-
-      case RoutesName.depositCrypto:
-        return MaterialPageRoute(
-            builder: (BuildContext context) => DepositCrypto());
-
 //Loan Payment Routes Name
 
       case RoutesName.loanGateway:
@@ -235,6 +220,12 @@ class Routes {
       case RoutesName.withdrawalPolicy:
         return MaterialPageRoute(
             builder: (BuildContext context) => WithdrawalPolicy());
+
+      //Withdraw Screen Routes
+
+      case RoutesName.depositWithdrawScreen:
+        return MaterialPageRoute(
+            builder: (BuildContext context) => DepositWithdrawScreen());
 
       default:
         return MaterialPageRoute(builder: (_) {
