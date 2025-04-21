@@ -75,4 +75,7 @@ class RoutesName {
   static const String loanPolicy = 'LoanPolicy';
   static const String privacyPolicy = 'PrivacyPolicy';
   static const String withdrawalPolicy = 'WithdrawalPolicy';
+
+  //Withdraw Routes Name
+  static const String depositWithdrawScreen = 'DepositWithdrawScreen';
 }

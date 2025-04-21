@@ -8,6 +8,7 @@ import 'package:v1_micro_finance/screens/loan/loan_list_viewmodel.dart';
 import 'package:v1_micro_finance/screens/loan/loan_view_model.dart';
 import 'package:v1_micro_finance/screens/nominee/nominee_viewmodel.dart';
 import 'package:v1_micro_finance/screens/signin/auth_view_model.dart';
+import 'package:v1_micro_finance/screens/withdraw/deposite/deposit_withdraw_viewmodel.dart';
 
 void main() {
   runApp(
@@ -22,6 +23,7 @@ void main() {
         ChangeNotifierProvider(create: (_) => LoanViewModel()),
         ChangeNotifierProvider(create: (_) => BalanceViewModel()),
         ChangeNotifierProvider(create: (_) => LoanListViewModel()),
+        ChangeNotifierProvider(create: (_) => DepositWithdrawViewModel())
       ],
       child: MicroFinance(),
     ),
@@ -35,7 +37,7 @@ class MicroFinance extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'FINSYS',
-      // // flutter build apk --build-name=1.0 --build-number=1
+      // flutter build apk --build-name=1.0 --build-number=1
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         scaffoldBackgroundColor:
