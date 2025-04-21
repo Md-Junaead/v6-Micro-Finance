@@ -113,13 +113,14 @@ class _UserInfoState extends State<_UserInfo> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFE1E8ED),
+                  // color: const Color(0xFFE1E8ED),
                   borderRadius: BorderRadius.circular(15),
                 ),
                 child: AnimatedCrossFade(
                   firstChild: const Text(
                     "Check Balance",
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.white),
                   ),
                   secondChild: Text(
                     _isBalanceVisible ? "\$$balanceValue" : "",

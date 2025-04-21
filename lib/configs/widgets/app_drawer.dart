@@ -84,9 +84,13 @@ class AppDrawer extends StatelessWidget {
                     RoutesName
                         .depositWithdrawScreen); // Replace with actual navigation
               }),
-              _buildMenuItem(context, Icons.add, 'Profit Withdraw', () {
-                Navigator.pushNamed(context,
-                    RoutesName.profitGateway); // Replace with actual navigation
+              _buildMenuItem(
+                  context, Icons.arrow_circle_down_rounded, 'Profit Withdraw',
+                  () {
+                Navigator.pushNamed(
+                    context,
+                    RoutesName
+                        .profitWithdrawScreen); // Replace with actual navigation
               }),
               _buildMenuItem(context, Icons.query_stats, 'Status', () {
                 Navigator.pushNamed(context,
