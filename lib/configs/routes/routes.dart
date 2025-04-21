@@ -34,9 +34,7 @@ import 'package:v1_micro_finance/screens/withdraw/deposite/deposit_withdraw_scre
 import 'package:v1_micro_finance/screens/withdraw/loan/loan_bank.dart';
 import 'package:v1_micro_finance/screens/withdraw/loan/loan_crypto.dart';
 import 'package:v1_micro_finance/screens/withdraw/loan/loan_gateway.dart';
-import 'package:v1_micro_finance/screens/withdraw/profit/profit_bank.dart';
-import 'package:v1_micro_finance/screens/withdraw/profit/profit_crypto.dart';
-import 'package:v1_micro_finance/screens/withdraw/profit/profit_gateway.dart';
+import 'package:v1_micro_finance/screens/withdraw/profit/profit_withdraw_screen.dart';
 import 'package:v1_micro_finance/test/test.dart';
 import 'package:v1_micro_finance/configs/widgets/app_drawer.dart';
 import 'package:v1_micro_finance/configs/widgets/bottom_nav_bar.dart';
@@ -186,18 +184,9 @@ class Routes {
 
 //Profit Payment Routes Name
 
-      case RoutesName.profitGateway:
+      case RoutesName.profitWithdrawScreen:
         return MaterialPageRoute(
-            builder: (BuildContext context) => ProfitGateway());
-
-      case RoutesName.profitCrypto:
-        return MaterialPageRoute(
-            builder: (BuildContext context) => ProfitCrypto());
-
-      case RoutesName.profitBank:
-        return MaterialPageRoute(
-            builder: (BuildContext context) => ProfitBank());
-
+            builder: (BuildContext context) => ProfitWithdrawScreen());
 //Policies Routes Name
       case RoutesName.policies:
         return MaterialPageRoute(builder: (BuildContext context) => Policies());

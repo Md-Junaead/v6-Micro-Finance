@@ -78,4 +78,5 @@ class RoutesName {
 
   //Withdraw Routes Name
   static const String depositWithdrawScreen = 'DepositWithdrawScreen';
+  static const String profitWithdrawScreen = 'ProfitWithdrawScreen';
 }
