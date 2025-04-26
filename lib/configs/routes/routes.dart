@@ -32,6 +32,7 @@ import 'package:v1_micro_finance/screens/onBord/on_board_screen.dart';
 import 'package:v1_micro_finance/screens/signin/user_info_screen.dart';
 import 'package:v1_micro_finance/screens/withdraw/deposite/deposit_withdraw_screen.dart';
 import 'package:v1_micro_finance/screens/withdraw/profit/profit_withdraw_screen.dart';
+import 'package:v1_micro_finance/screens/withdraw/statement/withdraw_statement_screen.dart';
 import 'package:v1_micro_finance/test/test.dart';
 import 'package:v1_micro_finance/configs/widgets/app_drawer.dart';
 import 'package:v1_micro_finance/configs/widgets/bottom_nav_bar.dart';
@@ -199,6 +200,10 @@ class Routes {
       case RoutesName.depositWithdrawScreen:
         return MaterialPageRoute(
             builder: (BuildContext context) => DepositWithdrawScreen());
+
+      case RoutesName.withdrawStatementScreen:
+        return MaterialPageRoute(
+            builder: (BuildContext context) => WithdrawStatementScreen());
 
       default:
         return MaterialPageRoute(builder: (_) {
