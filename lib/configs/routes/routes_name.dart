@@ -58,11 +58,6 @@ class RoutesName {
   static const String depositBank = 'DepositBank';
   static const String depositCrypto = 'DepositCrypto';
 
-  //Loan routes name
-  static const String loanGateway = 'LoanGateway';
-  static const String loanBank = 'LoanBank';
-  static const String loanCrypto = 'LoanCrypto';
-
   //Profit routes name
   static const String profitGateway = 'ProfitGateway';
   static const String profitBank = 'ProfitBank';

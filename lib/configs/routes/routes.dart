@@ -31,9 +31,6 @@ import 'package:v1_micro_finance/screens/auth/verification.dart';
 import 'package:v1_micro_finance/screens/onBord/on_board_screen.dart';
 import 'package:v1_micro_finance/screens/signin/user_info_screen.dart';
 import 'package:v1_micro_finance/screens/withdraw/deposite/deposit_withdraw_screen.dart';
-import 'package:v1_micro_finance/screens/withdraw/loan/loan_bank.dart';
-import 'package:v1_micro_finance/screens/withdraw/loan/loan_crypto.dart';
-import 'package:v1_micro_finance/screens/withdraw/loan/loan_gateway.dart';
 import 'package:v1_micro_finance/screens/withdraw/profit/profit_withdraw_screen.dart';
 import 'package:v1_micro_finance/test/test.dart';
 import 'package:v1_micro_finance/configs/widgets/app_drawer.dart';
@@ -168,19 +165,6 @@ class Routes {
       case RoutesName.payEmiScreen:
         return MaterialPageRoute(
             builder: (BuildContext context) => PayEmiScreen());
-
-//Loan Payment Routes Name
-
-      case RoutesName.loanGateway:
-        return MaterialPageRoute(
-            builder: (BuildContext context) => LoanGateway());
-
-      case RoutesName.loanBank:
-        return MaterialPageRoute(builder: (BuildContext context) => LoanBank());
-
-      case RoutesName.loanCrypto:
-        return MaterialPageRoute(
-            builder: (BuildContext context) => LoanCrypto());
 
 //Profit Payment Routes Name
 
