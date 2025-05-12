@@ -14,7 +14,21 @@ class LoanSaveScreen extends StatefulWidget {
 class _LoanSaveScreenState extends State<LoanSaveScreen> {
   final _formKey = GlobalKey<FormState>();
   final _amountController = TextEditingController();
-  int? _selectedTenure; // 26 or 52
+  int? _selectedTenure;
+
+  @override
+  void initState() {
+    super.initState();
+    // ─── FETCH ELIGIBLE BALANCE ON SCREEN LOAD ──────────────────────────────
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final authVm = Provider.of<AuthViewModel>(context, listen: false);
+      final loanVm = Provider.of<LoanViewModel>(context, listen: false);
+      final userId = authVm.user?.id;
+      if (userId != null) {
+        loanVm.fetchEligibleBalance(userId); // UPDATED: trigger initial fetch
+      }
+    });
+  }
 
   @override
   void dispose() {
@@ -35,7 +49,19 @@ class _LoanSaveScreenState extends State<LoanSaveScreen> {
           key: _formKey,
           child: Column(
             children: [
-              // Tenure Selection
+              // ─── DISPLAY THE USER'S ELIGIBLE BALANCE ────────────────────────────
+              Text(
+                'Eligible Balance: '
+                '${loanViewModel.eligibleBalance?.toStringAsFixed(2) ?? '0.00'}',
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 12),
+              // ───────────────────────────────────────────────────────────────────────
+
+              // Tenure Selection...
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -57,7 +83,7 @@ class _LoanSaveScreenState extends State<LoanSaveScreen> {
                 ],
               ),
 
-              // Loan Amount Input
+              // Loan Amount Input...
               TextFormField(
                 controller: _amountController,
                 keyboardType: TextInputType.number,
@@ -75,15 +101,12 @@ class _LoanSaveScreenState extends State<LoanSaveScreen> {
               ),
 
               const SizedBox(height: 20),
-
-              // Submit Button
               if (loanViewModel.isLoading)
                 const CircularProgressIndicator()
               else
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(
-                        0xFF06426D), // Set button background color to blue
+                    backgroundColor: const Color(0xFF06426D),
                   ),
                   onPressed: () async {
                     if (_formKey.currentState!.validate() &&
@@ -105,7 +128,6 @@ class _LoanSaveScreenState extends State<LoanSaveScreen> {
                       if (loanViewModel.loanSuccess) {
                         _amountController.clear();
                         setState(() => _selectedTenure = null);
-                        // Show success message
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                               content: Text("Loan application successful!")),
